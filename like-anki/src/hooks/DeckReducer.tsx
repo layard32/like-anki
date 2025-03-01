@@ -9,9 +9,9 @@ type DeckAction =
 const DeckReducer = (state: DeckModel[], action: DeckAction) => {
     switch (action.type) {
         case 'ADD-DECK':
-            return state
+            return [...state, {id: Math.random(), name: action.payload, numberOfCards: 0}];
         case 'REMOVE-DECK':
-            return state
+            return state.filter((deck) => deck.id !== action.payload);
         case 'EDIT-DECK':
             return state
         default:
