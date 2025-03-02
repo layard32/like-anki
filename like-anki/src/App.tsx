@@ -4,8 +4,14 @@ import DeckReducer from './hooks/DeckReducer';
 import CardReducer from './hooks/CardReducer';
 import Modal from './components/Modal';
 import InputFieldAction from './components/InputFieldAction';
+import AddCard from './components/AddCard';
 
 const App: React.FC = () => {
+  // stati per la gestione dei deck
+  const [decks, dispatchDecks] = React.useReducer(DeckReducer, []);
+  // stati per la gestione delle cards
+  const [cards, dispatchCards] = React.useReducer(CardReducer, []);
+
   // logica per i modali
   const [showModalDeck, setShowModalDeck] = React.useState<boolean>(false);
   const [showModalCard, setShowModalCard] = React.useState<boolean>(false);
@@ -25,12 +31,17 @@ const App: React.FC = () => {
         dispatchDecks({ type: 'ADD-DECK', payload: deckName });
         handleModalDeck();
     }
-  };  
+  };
 
-  // stati per la gestione dei deck
-  const [decks, dispatchDecks] = React.useReducer(DeckReducer, []);
-  // stati per la gestione delle cards
-  const [cards, dispatchCards] = React.useReducer(CardReducer, []);
+  // gestione con stato e handler per il modal che aggiunge le cards
+  // TODO
+  // const [cardName, setCardName] = React.useState<string>('');
+  // const handleAddCard = () => {
+  //   if (cardName !== '') {
+  //       dispatchCards({ type: 'ADD-CARD', payload: { id: Math.random(), question: cardName, answer: 'answer', status: 'new', deckId: 1 } });
+  //       handleModalCard();
+  //   }
+
 
   return (
     <>
@@ -40,15 +51,20 @@ const App: React.FC = () => {
     ? <Modal handleModal = {handleModalDeck} 
              dispatch = {dispatchDecks} 
              modalName='Add New Deck' 
-             sonComponent={<InputFieldAction name={deckName} setName={setDeckName} handleAction={handleAddDeck} actionName='Add deck'/>}/> 
+             sonComponent={<InputFieldAction name={deckName} 
+                          setName={setDeckName} 
+                          handleAction={handleAddDeck} 
+                          actionName='Add deck'/>}/> 
     : null}
 
     {showModalCard
     ? <Modal handleModal = {handleModalCard} 
-             dispatch = {dispatchDecks}  // TODO FARE DISPATCH
-             modalName='Add a card to a deck' 
-             // TODO FARE SON COMPONENT
-             sonComponent={<InputFieldAction name={deckName} setName={setDeckName} handleAction={handleAddDeck} actionName='Add deck'/>}/> 
+             dispatch = {dispatchCards}
+             modalName='Add a card to a deck'
+             // valutare se utilizzare un contesto piuttosto che il passaggio "bruto" dei props che servono
+             // ad inputfieldaction
+             sonComponent={<AddCard inputName={deckName} 
+                          inputSetName={setDeckName} />}/> 
     : null}
 
     <div className='d-flex justify-content-center mt-5 gap-1'>

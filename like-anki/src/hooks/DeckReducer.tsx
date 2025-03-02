@@ -20,6 +20,6 @@ const DeckReducer = (state: DeckModel[], action: DeckAction) => {
         default:
             return state;
     } 
-}
+};
 
-export default DeckReducer
+export default DeckReducer;
