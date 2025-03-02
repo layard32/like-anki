@@ -1,2 +1,2 @@
-1. aggiungere edit per deck
-2. aggiungere tutte cose su aggiunte cards
+1. gestire modale in maniera migliore
+2. aggiungere modale per aggiunta card a deck

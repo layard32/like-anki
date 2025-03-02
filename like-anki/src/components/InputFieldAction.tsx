@@ -8,11 +8,13 @@ interface Props {
 }
 
 const InputFieldAction: React.FC<Props> = ({name, setName, handleAction, actionName}: Props) => {
-    // effect hook per mettere subito focus sull'input
+    // effect hook per mettere focus quando viene montata e rimuovere il testo quando viene smontata
     const inputRef = useRef<HTMLInputElement>(null);
     useEffect(() => {
-        if (inputRef.current) {
-            inputRef.current.focus();
+        if (inputRef.current) inputRef.current.focus();
+        // clean up function
+        return () => {
+            setName('');
         }
     }, []);
 
