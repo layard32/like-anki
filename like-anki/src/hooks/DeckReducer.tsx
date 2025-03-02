@@ -13,7 +13,10 @@ const DeckReducer = (state: DeckModel[], action: DeckAction) => {
         case 'REMOVE-DECK':
             return state.filter((deck) => deck.id !== action.payload);
         case 'EDIT-DECK':
-            return state;
+            return state.map((deck) => {
+                if (deck.id === action.payload.id) return { ...deck, name: action.payload.text };
+                return deck;
+            });
         default:
             return state;
     } 
