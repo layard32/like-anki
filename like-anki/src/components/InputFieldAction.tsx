@@ -13,9 +13,10 @@ const InputFieldAction: React.FC<Props> = ({name, setName, handleAction, actionN
     useEffect(() => {
         if (inputRef.current) inputRef.current.focus();
         // clean up function
-        return () => {
-            setName('');
-        }
+        // TOFIX: the clean up deletes the name when a new inputfield is mounted 
+        // return () => {
+        //     setName('');
+        // }
     }, []);
 
   return (

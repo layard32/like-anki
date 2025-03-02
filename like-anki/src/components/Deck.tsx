@@ -29,7 +29,7 @@ const Deck: React.FC<Props> = ({ deck, dispatch }: Props) => {
   return (
     <div className='card w-100 mb-3'>
       <div className='card-body d-flex justify-content-between align-items-center'>
-        <div className='w-75'> 
+        <div className='w-100' style={{ maxWidth: '68%' }}> 
         {
           editable ?
           <InputFieldAdd name={newText} setName={setNewText} handleAction={handleEditDeck} actionName='Modify'/>

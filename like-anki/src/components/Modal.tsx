@@ -1,5 +1,4 @@
 import React from 'react';
-import InputFieldAdd from './InputFieldAction';
 
 interface Props {
     modalName: string;
