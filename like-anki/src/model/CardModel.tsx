@@ -1,7 +1,9 @@
 interface CardModel {
     id: number;
-    content: string;
+    question: string;
+    answer: string;
     status: 'new' | 'learning' | 'completed';
+    deckId: number;
 }
 
 export default CardModel;

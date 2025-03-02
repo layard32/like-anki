@@ -1,6 +1,7 @@
 import React from 'react';
 import DeckList from './components/DeckList';
 import DeckReducer from './hooks/DeckReducer';
+import CardReducer from './hooks/CardReducer';
 import Modal from './components/Modal';
 import InputFieldAction from './components/InputFieldAction';
 
@@ -29,7 +30,7 @@ const App: React.FC = () => {
   // stati per la gestione dei deck
   const [decks, dispatchDecks] = React.useReducer(DeckReducer, []);
   // stati per la gestione delle cards
-  // TODO
+  const [cards, dispatchCards] = React.useReducer(CardReducer, []);
 
   return (
     <>
