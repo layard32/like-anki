@@ -1,2 +1,1 @@
-1. gestire modale in maniera migliore
-2. aggiungere modale per aggiunta card a deck
+* devo fare la componente addcard prima di fare altro (non si può usare inputfield!!! perché ho tre form... conviene fare da zero, forse)
