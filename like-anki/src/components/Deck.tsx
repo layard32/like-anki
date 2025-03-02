@@ -36,8 +36,10 @@ const Deck: React.FC<Props> = ({ deck, dispatch }: Props) => {
           : <div className='h4 m-0 text-wrap'>{deck.name}</div>
         }
         </div>
-        <div className='d-flex align-items-center ms-auto gap-1'>
-          <div className='h4 m-0 me-3'>{deck.numberOfCards}</div>
+        <div className='d-flex gap-1'>
+          <div className='h4 m-0 me-3'>{deck.newCards}</div>
+          <div className='h4 m-0 me-3'>{deck.learningCards}</div>
+          <div className='h4 m-0 me-3'>{deck.completedCards}</div>
           <MdDelete className='text-danger' style={{ cursor: 'pointer', fontSize: '2rem' }} onClick={() => dispatch({ type: 'REMOVE-DECK', payload: deck.id })} />
           <CiEdit className='text-success' style={{ cursor: 'pointer', fontSize: '2rem' }} onClick={handleEditable} />
         </div>
