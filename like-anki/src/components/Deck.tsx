@@ -22,9 +22,14 @@ const Deck: React.FC<Props> = ({ deck, dispatch }: Props) => {
   }
 
   // funzione per la modifica del deck
-  const handleEditDeck = () =>{
+  const handleEditDeck = () => {
     dispatch({ type: 'EDIT-DECK', payload: { id: deck.id, text: newText } });
     handleEditable();
+  }
+
+  // funzione per reindirizzare alla vista delle cards di un deck
+  const handleRedirectionToDeck = () => {
+
   }
 
   return (
@@ -48,7 +53,7 @@ const Deck: React.FC<Props> = ({ deck, dispatch }: Props) => {
             </Dropdown.Toggle>
             <Dropdown.Menu>
               <Dropdown.Item onClick={handleEditable}>Edit deck name</Dropdown.Item>
-              <Dropdown.Item>See cards</Dropdown.Item>
+              <Dropdown.Item onClick={handleRedirectionToDeck}>See cards</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         </div>
