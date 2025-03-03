@@ -3,6 +3,7 @@ import InputFieldAdd from './ui/InputFieldAction';
 import DeckModel from '../model/DeckModel';
 import { MdDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
+import { Dropdown } from 'react-bootstrap';
 
 interface Props {
   deck: DeckModel;
@@ -26,9 +27,14 @@ const Deck: React.FC<Props> = ({ deck, dispatch }: Props) => {
     handleEditable();
   }
 
+  // oltre all'icona per l'edit, anche il click destro porta al dropdown
+  const handleRightClick = () => {
+    console.log("right click")
+  }
+
   return (
-    <div className='card w-100 mb-3'>
-      <div className='card-body d-flex justify-content-between align-items-center'>
+    <div className='card w-100 mb-3' onContextMenu={handleRightClick}>
+      <div className='card-body d-flex align-items-center gap-4'>
         <div className='w-100' style={{ maxWidth: '68%' }}> 
         {
           editable ?
@@ -36,12 +42,20 @@ const Deck: React.FC<Props> = ({ deck, dispatch }: Props) => {
           : <div className='h4 m-0 text-wrap'>{deck.name}</div>
         }
         </div>
-        <div className='d-flex flex-wrap gap-1'>
-          <div className='h4 m-0 me-3 text-primary'>{deck.newCards}</div>
-          <div className='h4 m-0 me-3 text-danger'>{deck.learningCards}</div>
-          <div className='h4 m-0 me-3 text-success'>{deck.completedCards}</div>
+        <div className='d-flex flex-wrap' style={{ gap: '14px' }}>
+          <div className='h4 m-0 text-primary'>{deck.newCards}</div>
+          <div className='h4 m-0 text-danger'>{deck.learningCards}</div>
+          <div className='h4 m-0 text-success'>{deck.completedCards}</div>
           <MdDelete className='text-danger' style={{ cursor: 'pointer', fontSize: '2rem' }} onClick={() => dispatch({ type: 'REMOVE-DECK', payload: deck.id })} />
-          <CiEdit   style={{ cursor: 'pointer', fontSize: '2rem' }} onClick={handleEditable} />
+          <Dropdown>
+            <Dropdown.Toggle variant="secondary" size='sm'>
+              <CiEdit style={{ cursor: 'pointer', fontSize: '1.4rem' }} />
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={handleEditable}>Edit deck name</Dropdown.Item>
+              <Dropdown.Item>See cards</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </div>
       </div>
     </div>

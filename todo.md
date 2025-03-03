@@ -1,1 +1,4 @@
-* devo fare la componente addcard prima di fare altro (non si può usare inputfield!!! perché ho tre form... conviene fare da zero, forse)
+* vedere come cancellare l'input senza eliminare lo stato da inputfield
+* gestione edit (cliccando il pulsante da opzione edit nome o sfoglia deck)
+
+* pagina per ripetizione card 
