@@ -27,13 +27,8 @@ const Deck: React.FC<Props> = ({ deck, dispatch }: Props) => {
     handleEditable();
   }
 
-  // oltre all'icona per l'edit, anche il click destro porta al dropdown
-  const handleRightClick = () => {
-    console.log("right click")
-  }
-
   return (
-    <div className='card w-100 mb-3' onContextMenu={handleRightClick}>
+    <div className='card w-100 mb-3'>
       <div className='card-body d-flex align-items-center gap-4'>
         <div className='w-100' style={{ maxWidth: '68%' }}> 
         {
