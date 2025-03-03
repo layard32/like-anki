@@ -2,7 +2,7 @@ import React from 'react'
 import CardModel from '../model/CardModel';
 
 type ActionType = 
-    | { type: 'ADD-CARD', payload: { question: string, answer: string, deckId: number } }
+    | { type: 'ADD-CARD', payload: CardModel }
     | { type: 'REMOVE-CARD', payload: { id: number } }
     | { type: 'EDIT-CARD', payload: { id:number, question: string, answer: string, status: 'new' | 'learning' | 'completed', deckId: number } }
     | { type: 'CHANGE-STATUS-CARD', payload: { id:number, status: 'new' | 'learning' | 'completed' } };
@@ -10,7 +10,7 @@ type ActionType =
 const CardReducer = (state: CardModel[], action: ActionType): CardModel[] => {
     switch (action.type) {
         case 'ADD-CARD':
-            return [...state, {id: Math.floor(Math.random() * 100) + 1, question: action.payload.question, answer: action.payload.answer, status: 'new', deckId: action.payload.deckId}];
+            return [...state, action.payload];
         case 'REMOVE-CARD':
             return state.filter((card) => card.id !== action.payload.id);
         case 'EDIT-CARD':

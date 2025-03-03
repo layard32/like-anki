@@ -5,6 +5,7 @@ import CardReducer from './hooks/CardReducer';
 import Modal from './components/ui/Modal';
 import InputFieldAction from './components/ui/InputFieldAction';
 import AddCard from './components/AddCard';
+import CardModel from './model/CardModel';
 
 const App: React.FC = () => {
     // logica per entrambi i modali (sia aggiunta deck che card ad un deck)
@@ -37,13 +38,26 @@ const App: React.FC = () => {
   const [cardAnswer, setCardAnswer] = React.useState<string>('');
   const [deckForCards, setDeckForCards] = React.useState<number>(0);
   // creazione di una nuova card ed aggiunta al relativo deck
+  // ATTENZIONE: sposto parte della logica dal reducer a qui, perché la card mi serve per un altro dispatch
+  // cosa non particolarmente corretta, ma in questo caso mi sembra la soluzione più semplice
   const handleAddCard = () => {
     if (cardQuestion !== '' && cardAnswer !== '' && deckForCards >= 0) {
-        dispatchCards({ type: 'ADD-CARD', payload: { question: cardQuestion, answer: cardAnswer, deckId: deckForCards } });
-        dispatchDecks({ type: 'ADD-CARD-TO-DECK', payload: { id: deckForCards, card: newCard});
-        handleModalCard();
+      // logica della creazione della card rubata dal reducer
+      const newCard: CardModel = {
+        id: Math.floor(Math.random() * 100) + 1,
+        question: cardQuestion,
+        answer: cardAnswer,
+        status: 'new',
+        deckId: deckForCards
+      };
+      // creazione nuova carta
+      dispatchCards({ type: 'ADD-CARD', payload: newCard });
+      // aggiunta card al deck
+      dispatchDecks({ type: 'ADD-CARD-TO-DECK', payload: { id: deckForCards, card: newCard } });
+      handleModalCard();
     }
   };
+
 
   return (
     <>
