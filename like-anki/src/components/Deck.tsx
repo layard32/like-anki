@@ -38,7 +38,9 @@ const Deck: React.FC<Props> = ({ deck, dispatch }: Props) => {
         <div className='w-100' style={{ maxWidth: '68%' }}> 
         {
           editable ?
-          <InputFieldAdd name={newText} setName={setNewText} handleAction={handleEditDeck} actionName='Modify'/>
+          <div className='w-75'> 
+            <InputFieldAdd name={newText} setName={setNewText} handleAction={handleEditDeck} actionName='Modify'/>
+          </div>
           : <div className='h4 m-0 text-wrap'>{deck.name}</div>
         }
         </div>
