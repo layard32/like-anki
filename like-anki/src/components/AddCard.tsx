@@ -1,6 +1,6 @@
 import React from 'react'
-import TextArea from './TextArea';
-import SelectFromOptions from './SelectFromOptions';
+import TextArea from './ui/TextArea';
+import SelectFromOptions from './ui/SelectFromOptions';
 import DeckModel from '../model/DeckModel';
 
 interface Props {

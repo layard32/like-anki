@@ -2,8 +2,8 @@ import React from 'react';
 import DeckList from './components/DeckList';
 import DeckReducer from './hooks/DeckReducer';
 import CardReducer from './hooks/CardReducer';
-import Modal from './components/Modal';
-import InputFieldAction from './components/InputFieldAction';
+import Modal from './components/ui/Modal';
+import InputFieldAction from './components/ui/InputFieldAction';
 import AddCard from './components/AddCard';
 
 const App: React.FC = () => {
