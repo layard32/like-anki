@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
+import InputField from './InputField';
 
 interface Props { 
     name: string; // nome
@@ -8,35 +9,13 @@ interface Props {
 }
 
 const InputFieldAction: React.FC<Props> = ({name, setName, handleAction, actionName}: Props) => {
-    // effect hook per mettere focus quando viene montata e rimuovere il testo quando viene smontata
-    const inputRef = useRef<HTMLInputElement>(null);
-    useEffect(() => {
-        if (inputRef.current) inputRef.current.focus();
-        // clean up function
-        // TOFIX: the clean up deletes the name when a new inputfield is mounted 
-        // return () => {
-        //     setName('');
-        // }
-    }, []);
 
   return (
     <div className="modal-body input-group my-1">
-    <input
-        type="text"
-        className="form-control"
-        placeholder="Type the deck name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-                handleAction();
-            }
-        }}
-        ref={inputRef}
-    />
+    { <InputField name={name} setName={setName} handleEnterKeyDown={handleAction} /> }
     <button type="button" className="btn btn-primary" onClick={handleAction}> {actionName} </button>
     </div>
   )
-}
+};
 
-export default InputFieldAction
+export default InputFieldAction;
