@@ -12,9 +12,10 @@ interface Props {
   setDeckForCards: React.Dispatch<React.SetStateAction<number>>;
   setCardQuestion: React.Dispatch<React.SetStateAction<string>>;
   setCardAnswer: React.Dispatch<React.SetStateAction<string>>;
+  createCard: () => void;
 }
 
-const AddCard: React.FC<Props> = ({deckForCards, cardQuestion, cardAnswer, setCardAnswer, setCardQuestion, decks, setDeckForCards}: Props) => {
+const AddCard: React.FC<Props> = ({createCard, deckForCards, cardQuestion, cardAnswer, setCardAnswer, setCardQuestion, decks, setDeckForCards}: Props) => {
   // GESTIONE LOGICA SELECT:
   // 1. funzione che associa la stringa restituita dal select al deck id
   const handleSetDeckForCards = (deckName: string) => {
@@ -24,8 +25,6 @@ const AddCard: React.FC<Props> = ({deckForCards, cardQuestion, cardAnswer, setCa
   // 2. un array con i nomi dei decks per il select del modale
   const deckNames = decks.map(deck => deck.name);
 
-  
-
   return (
     <div className='w-75 text-center mx-auto'>
       <h5 className='ms-2 mt-3'> Deck </h5>
@@ -34,7 +33,7 @@ const AddCard: React.FC<Props> = ({deckForCards, cardQuestion, cardAnswer, setCa
       { <TextArea body={cardQuestion} setBody={setCardQuestion} placeholder='Type the question' /> }
       <h5 className='ms-2 mt-3'> Answer </h5>
       { <TextArea body={cardAnswer} setBody={setCardAnswer} placeholder='Type your answer' /> }
-      { <ButtonAction text='Add the card' onClickAction={() => {}} /> }
+      { <ButtonAction text='Add the card' onClickAction={createCard} /> }
     </div>
   )
 };

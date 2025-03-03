@@ -7,22 +7,21 @@ import InputFieldAction from './components/ui/InputFieldAction';
 import AddCard from './components/AddCard';
 
 const App: React.FC = () => {
-  // stati per la gestione dei deck
-  const [decks, dispatchDecks] = React.useReducer(DeckReducer, []);
-  // stati per la gestione delle cards
-  const [cards, dispatchCards] = React.useReducer(CardReducer, []);
+    // logica per entrambi i modali (sia aggiunta deck che card ad un deck)
+    const [showModalDeck, setShowModalDeck] = React.useState<boolean>(false);
+    const [showModalCard, setShowModalCard] = React.useState<boolean>(false);
+    const handleModalDeck = () => {
+      if (!showModalDeck && !showModalCard) setShowModalDeck(true);
+      else setShowModalDeck(false);
+    };
+    const handleModalCard = () => {
+      if (!showModalCard && !showModalDeck) setShowModalCard(true);
+      else setShowModalCard(false);
+    };
 
-  // logica per i modali
-  const [showModalDeck, setShowModalDeck] = React.useState<boolean>(false);
-  const [showModalCard, setShowModalCard] = React.useState<boolean>(false);
-  const handleModalDeck = () => {
-    if (!showModalDeck && !showModalCard) setShowModalDeck(true);
-    else setShowModalDeck(false);
-  };
-  const handleModalCard = () => {
-    if (!showModalCard && !showModalDeck) setShowModalCard(true);
-    else setShowModalCard(false);
-  };
+  // stati per la gestione dei deck e cards
+  const [decks, dispatchDecks] = React.useReducer(DeckReducer, []);
+  const [cards, dispatchCards] = React.useReducer(CardReducer, []);
 
   // gestione con stato e handler per il modal che aggiunge un deck
   const [deckName, setDeckName] = React.useState<string>('');
@@ -37,6 +36,14 @@ const App: React.FC = () => {
   const [cardQuestion, setCardQuestion] = React.useState<string>('');
   const [cardAnswer, setCardAnswer] = React.useState<string>('');
   const [deckForCards, setDeckForCards] = React.useState<number>(0);
+  // creazione di una nuova card ed aggiunta al relativo deck
+  const handleAddCard = () => {
+    if (cardQuestion !== '' && cardAnswer !== '' && deckForCards >= 0) {
+        dispatchCards({ type: 'ADD-CARD', payload: { question: cardQuestion, answer: cardAnswer, deckId: deckForCards } });
+        dispatchDecks({ type: 'ADD-CARD-TO-DECK', payload: { id: deckForCards, card: newCard});
+        handleModalCard();
+    }
+  };
 
   return (
     <>
@@ -56,7 +63,6 @@ const App: React.FC = () => {
     ? <Modal handleModal = {handleModalCard} 
              dispatch = {dispatchCards}
              modalName='Add a card to a deck'
-             // TODO: VEDERE PROPS
              sonComponent={<AddCard cardQuestion={cardQuestion}
                           setCardQuestion={setCardQuestion}
                           cardAnswer={cardAnswer}
@@ -64,6 +70,7 @@ const App: React.FC = () => {
                           decks={decks}
                           setDeckForCards={setDeckForCards}
                           deckForCards={deckForCards}
+                          createCard={handleAddCard}
                           />}/> 
     : null}
 
