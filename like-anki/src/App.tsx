@@ -33,14 +33,9 @@ const App: React.FC = () => {
     }
   };
 
-  // gestione con stato e handler per il modal che aggiunge le cards
-  // TODO
-  // const [cardName, setCardName] = React.useState<string>('');
-  // const handleAddCard = () => {
-  //   if (cardName !== '') {
-  //       dispatchCards({ type: 'ADD-CARD', payload: { id: Math.random(), question: cardName, answer: 'answer', status: 'new', deckId: 1 } });
-  //       handleModalCard();
-  //   }
+  // gestione con stati e handlers per il modal che aggiunge le cards
+  const [cardQuestion, setCardQuestion] = React.useState<string>('');
+  const [cardAnswer, setCardAnswer] = React.useState<string>('');
 
 
   return (
@@ -61,10 +56,11 @@ const App: React.FC = () => {
     ? <Modal handleModal = {handleModalCard} 
              dispatch = {dispatchCards}
              modalName='Add a card to a deck'
-             // valutare se utilizzare un contesto piuttosto che il passaggio "bruto" dei props che servono
-             // ad inputfieldaction
-             sonComponent={<AddCard inputName={deckName} 
-                          inputSetName={setDeckName} />}/> 
+             // TODO: VEDERE PROPS
+             sonComponent={<AddCard cardQuestion={cardQuestion}
+                          setCardQuestion={setCardQuestion}
+                          cardAnswer={cardAnswer}
+                          setCardAnswer={setCardAnswer} />}/> 
     : null}
 
     <div className='d-flex justify-content-center mt-5 gap-1'>

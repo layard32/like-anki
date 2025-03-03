@@ -1,26 +1,22 @@
 import React from 'react'
-import InputFieldAction from './InputFieldAction'
+import TextArea from './TextArea';
 
 interface Props {
-    inputName: string;
-    inputSetName: React.Dispatch<React.SetStateAction<string>>;
+  cardQuestion: string;
+  cardAnswer: string;
+  setCardQuestion: React.Dispatch<React.SetStateAction<string>>;
+  setCardAnswer: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const AddCard: React.FC<Props> = ({inputName, inputSetName}: Props) => {
-    // logica aggiunta card ad un deck
-    const [cardName, setCardName] = React.useState<string>('');
-    // const handleAddCard = () => {
-    //     if (deckName !== '') {
-    //         dispatchCards({ type: 'ADD-CARD', payload: { id: Math.random(), question: deckName, answer: 'answer', status: 'new', deckId: 1 } });
-    //         handleModalCard();
-    //     }
-    // };
+const AddCard: React.FC<Props> = ({cardQuestion, cardAnswer, setCardAnswer, setCardQuestion}: Props) => {
 
   return (
     <div>
-      {/* <InputFieldAction name={inputName} setName={inputSetName} handleAction={handleAddCard} actionName='Add a card to your deck'/> */}
+      { <TextArea body={cardQuestion} setBody={setCardQuestion} placeholder='Type the question' /> }
+      <hr />
+      { <TextArea body={cardAnswer} setBody={setCardAnswer} placeholder='Type your answer' /> }
     </div>
   )
-}
+};
 
-export default AddCard
+export default AddCard;
