@@ -1,7 +1,7 @@
 import React from 'react'
 import TextArea from './ui/TextArea';
 import SelectFromOptions from './ui/SelectFromOptions';
-import DeckModel from '../model/DeckModel';
+import Button from './ui/Button';
 
 interface Props {
   cardQuestion: string;
@@ -14,15 +14,14 @@ interface Props {
 const AddCard: React.FC<Props> = ({cardQuestion, cardAnswer, setCardAnswer, setCardQuestion, decks}: Props) => {
 
   return (
-    <div>
+    <div className='w-75 text-center mx-auto'>
       <h5 className='ms-2 mt-3'> Deck </h5>
       { <SelectFromOptions options = {decks} />}
-      <hr />
-      <h5 className='ms-2'> Question </h5>
+      <h5 className='ms-2 mt-3'> Question </h5>
       { <TextArea body={cardQuestion} setBody={setCardQuestion} placeholder='Type the question' /> }
-      <hr />
-      <h5 className='ms-2'> Answer </h5>
+      <h5 className='ms-2 mt-3'> Answer </h5>
       { <TextArea body={cardAnswer} setBody={setCardAnswer} placeholder='Type your answer' /> }
+      { <Button text='Add the card' onClickAction={() => {}} /> }
     </div>
   )
 };
