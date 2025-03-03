@@ -36,7 +36,9 @@ const App: React.FC = () => {
   // gestione con stati e handlers per il modal che aggiunge le cards
   const [cardQuestion, setCardQuestion] = React.useState<string>('');
   const [cardAnswer, setCardAnswer] = React.useState<string>('');
-
+  const [deckForCards, setDeckForCards] = React.useState<number>(0);
+  // array con i nomi dei decks per il select del modale
+  const deckNames = decks.map(deck => deck.name);
 
   return (
     <>
@@ -49,7 +51,7 @@ const App: React.FC = () => {
              sonComponent={<InputFieldAction name={deckName} 
                           setName={setDeckName} 
                           handleAction={handleAddDeck} 
-                          actionName='Add deck'/>}/> 
+                          actionName='Add deck'/> }/> 
     : null}
 
     {showModalCard
@@ -60,7 +62,9 @@ const App: React.FC = () => {
              sonComponent={<AddCard cardQuestion={cardQuestion}
                           setCardQuestion={setCardQuestion}
                           cardAnswer={cardAnswer}
-                          setCardAnswer={setCardAnswer} />}/> 
+                          setCardAnswer={setCardAnswer} 
+                          decks={deckNames}
+                          />}/> 
     : null}
 
     <div className='d-flex justify-content-center mt-5 gap-1'>
