@@ -1,27 +1,40 @@
 import React from 'react'
 import TextArea from './ui/TextArea';
 import SelectFromOptions from './ui/SelectFromOptions';
-import Button from './ui/Button';
+import ButtonAction from './ui/ButtonAction';
+import DeckModel from '../model/DeckModel';
 
 interface Props {
   cardQuestion: string;
   cardAnswer: string;
+  decks: DeckModel[];
+  deckForCards: number;
+  setDeckForCards: React.Dispatch<React.SetStateAction<number>>;
   setCardQuestion: React.Dispatch<React.SetStateAction<string>>;
   setCardAnswer: React.Dispatch<React.SetStateAction<string>>;
-  decks: string[];
 }
 
-const AddCard: React.FC<Props> = ({cardQuestion, cardAnswer, setCardAnswer, setCardQuestion, decks}: Props) => {
+const AddCard: React.FC<Props> = ({deckForCards, cardQuestion, cardAnswer, setCardAnswer, setCardQuestion, decks, setDeckForCards}: Props) => {
+  // GESTIONE LOGICA SELECT:
+  // 1. funzione che associa la stringa restituita dal select al deck id
+  const handleSetDeckForCards = (deckName: string) => {
+    const deckId = decks.find(deck => deck.name === deckName)?.id;
+    if (deckId) setDeckForCards(deckId);
+  }
+  // 2. un array con i nomi dei decks per il select del modale
+  const deckNames = decks.map(deck => deck.name);
+
+  
 
   return (
     <div className='w-75 text-center mx-auto'>
       <h5 className='ms-2 mt-3'> Deck </h5>
-      { <SelectFromOptions options = {decks} />}
+      { <SelectFromOptions options = {deckNames} setOptions={handleSetDeckForCards}/>}
       <h5 className='ms-2 mt-3'> Question </h5>
       { <TextArea body={cardQuestion} setBody={setCardQuestion} placeholder='Type the question' /> }
       <h5 className='ms-2 mt-3'> Answer </h5>
       { <TextArea body={cardAnswer} setBody={setCardAnswer} placeholder='Type your answer' /> }
-      { <Button text='Add the card' onClickAction={() => {}} /> }
+      { <ButtonAction text='Add the card' onClickAction={() => {}} /> }
     </div>
   )
 };

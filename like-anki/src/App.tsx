@@ -37,8 +37,6 @@ const App: React.FC = () => {
   const [cardQuestion, setCardQuestion] = React.useState<string>('');
   const [cardAnswer, setCardAnswer] = React.useState<string>('');
   const [deckForCards, setDeckForCards] = React.useState<number>(0);
-  // array con i nomi dei decks per il select del modale
-  const deckNames = decks.map(deck => deck.name);
 
   return (
     <>
@@ -63,7 +61,9 @@ const App: React.FC = () => {
                           setCardQuestion={setCardQuestion}
                           cardAnswer={cardAnswer}
                           setCardAnswer={setCardAnswer} 
-                          decks={deckNames}
+                          decks={decks}
+                          setDeckForCards={setDeckForCards}
+                          deckForCards={deckForCards}
                           />}/> 
     : null}
 

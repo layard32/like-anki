@@ -36,7 +36,7 @@ const Deck: React.FC<Props> = ({ deck, dispatch }: Props) => {
           : <div className='h4 m-0 text-wrap'>{deck.name}</div>
         }
         </div>
-        <div className='d-flex gap-1'>
+        <div className='d-flex flex-wrap gap-1'>
           <div className='h4 m-0 me-3 text-primary'>{deck.newCards}</div>
           <div className='h4 m-0 me-3 text-danger'>{deck.learningCards}</div>
           <div className='h4 m-0 me-3 text-success'>{deck.completedCards}</div>

@@ -7,7 +7,7 @@ interface Props {
     onClickAction: () => void;
 }
 
-const Button: React.FC<Props> = ({text, Icon, onClickAction}: Props) => {
+const ButtonAction: React.FC<Props> = ({text, Icon, onClickAction}: Props) => {
     return (
         <div>
             <button className='btn btn-primary ms-2 my-3'
@@ -18,4 +18,4 @@ const Button: React.FC<Props> = ({text, Icon, onClickAction}: Props) => {
     )
 };
 
-export default Button;
+export default ButtonAction;
