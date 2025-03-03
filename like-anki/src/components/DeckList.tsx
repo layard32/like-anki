@@ -14,9 +14,9 @@ const DeckList: React.FC<Props> = ({ decks, dispatch }: Props) => {
                 <div className='d-flex justify-content-between align-items-center'>
                     <span className='h4'>Name </span>
                     <div className='d-flex gap-3'> 
-                        <span className='h4'>New</span>
-                        <span className='h4'>Learning</span>
-                        <span className='h4'>Completed</span>
+                        <span className='h4 text-primary'>New</span>
+                        <span className='h4 text-danger'>Learning</span>
+                        <span className='h4 text-success'>Completed</span>
                     </div>
                 </div>
             </div>

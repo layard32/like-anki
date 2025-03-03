@@ -37,9 +37,9 @@ const Deck: React.FC<Props> = ({ deck, dispatch }: Props) => {
         }
         </div>
         <div className='d-flex gap-1'>
-          <div className='h4 m-0 me-3'>{deck.newCards}</div>
-          <div className='h4 m-0 me-3'>{deck.learningCards}</div>
-          <div className='h4 m-0 me-3'>{deck.completedCards}</div>
+          <div className='h4 m-0 me-3 text-primary'>{deck.newCards}</div>
+          <div className='h4 m-0 me-3 text-danger'>{deck.learningCards}</div>
+          <div className='h4 m-0 me-3 text-success'>{deck.completedCards}</div>
           <MdDelete className='text-danger' style={{ cursor: 'pointer', fontSize: '2rem' }} onClick={() => dispatch({ type: 'REMOVE-DECK', payload: deck.id })} />
           <CiEdit className='text-success' style={{ cursor: 'pointer', fontSize: '2rem' }} onClick={handleEditable} />
         </div>
