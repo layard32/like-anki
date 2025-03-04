@@ -4,6 +4,7 @@ import DeckModel from '../model/DeckModel';
 import { MdDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import { Dropdown } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   deck: DeckModel;
@@ -28,8 +29,9 @@ const Deck: React.FC<Props> = ({ deck, dispatch }: Props) => {
   }
 
   // funzione per reindirizzare alla vista delle cards di un deck
+  const navigate = useNavigate();
   const handleRedirectionToDeck = () => {
-
+    navigate(`/deck/${deck.id}`);
   }
 
   return (

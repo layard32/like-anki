@@ -1,17 +1,22 @@
 import React from 'react';
-import { RouteProps } from 'react-router-dom';
 import DeckShow from './components/DeckShow';
+import Home from './Home';
 
 interface AppRoute {
-  path: string;
-  component: React.ComponentType<any>;
+    path: string;
+    component: React.ComponentType<any>;
 }
 
+// definiamo l'insieme delle rotte, con path l'url e component la relativa componente
 const routes: AppRoute[] = [
-  {
-    path: '/deck/:deckId',
-    component: DeckShow,
-  },
+    { 
+        path: '/',
+        component: Home,
+    },
+    {
+        path: '/deck/:deckId',
+        component: DeckShow,
+    }
 ];
 
 export default routes;

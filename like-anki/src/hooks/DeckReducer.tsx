@@ -26,7 +26,7 @@ const DeckReducer = (state: DeckModel[], action: DeckAction): DeckModel[] => {
             return [
                 ...state, 
                 { 
-                    id: Math.floor(Math.random() * 100) + 1, 
+                    id: Math.floor(Math.random() * 10) + 1, 
                     name: action.payload, 
                     completedCards: 0, 
                     learningCards: 0, 
