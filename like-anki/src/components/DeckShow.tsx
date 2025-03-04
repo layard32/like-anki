@@ -1,10 +1,11 @@
 import React from 'react'
 import { useParams } from 'react-router-dom';
 import ButtonAction from './ui/ButtonAction';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { loadData } from '../localforageUtils';
 import DeckModel from '../model/DeckModel';
+import Card from './Card';
 
 const DeckShow: React.FC= () => {
     // utilizzo l'useParams hook per prendere il parametro della nested route
@@ -30,26 +31,26 @@ const DeckShow: React.FC= () => {
     }, [deckId]);    
 
     return (
-        <div>
-            { deck 
-            ? <> 
-                <ButtonAction onClickAction={handleRedirectionToHomePage} text='Go back' />
-                <div className='d-flex align-items-center gap-3'> 
-                    <div className='h4'> {deck.name} </div>
-                    <div className='h4 text-primary'> {deck.newCards} </div> 
-                    <div className='h4 text-danger'> {deck.learningCards} </div> 
-                    <div className='h4 text-success'> {deck.completedCards} </div> 
-                    {/* lista delle cards */}
+        deck ? (
+            <div className='d-flex gap-3' style={{ maxWidth: '20%', minWidth: '210px' }}>
+                <div className='ms-3 w-100'>
+                    <ButtonAction onClickAction={handleRedirectionToHomePage} text='Go back' />
+                    <div className='d-flex align-items-center gap-3'>
+                        <div className='h4 wrap text-break'>{deck.name}</div>
+                        <div className='h4 text-primary'>{deck.newCards}</div>
+                        <div className='h4 text-danger'>{deck.learningCards}</div>
+                        <div className='h4 text-success'>{deck.completedCards}</div>
+                    </div>
+                    <div>
+                        {deck.cards.map((card) => (
+                            <Card key={card.id} card={card} />
+                        ))}
+                    </div>
                 </div>
-                <div>
-                    {deck.cards.map((card) => (
-                        card.question 
-                ))}
-                </div>
-            </> : null
-            }
-        </div>
-    )
+                    <div className='vr' style={{ minHeight: '100vh', minWidth: '4px', backgroundColor: 'black', opacity:'0.6' }}> </div>
+            </div>
+        ) : null
+    );
 };
 
 export default DeckShow;

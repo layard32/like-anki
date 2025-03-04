@@ -36,17 +36,17 @@ const Deck: React.FC<Props> = ({ deck, dispatch }: Props) => {
 
   return (
     <div className='card w-100 mb-3'>
-      <div className='card-body d-flex align-items-center gap-4'>
-        <div className='w-100' style={{ maxWidth: '68%' }}> 
+      <div className='card-body d-flex align-items-center justify-content-between'>
+        <div style={{ maxWidth: '70%' }}> 
         {
           editable ?
-          <div className='w-75'> 
+          <div className='w-100'> 
             <InputFieldAdd name={newText} setName={setNewText} handleAction={handleEditDeck} actionName='Modify'/>
           </div>
           : <div className='h4 m-0 text-wrap'>{deck.name}</div>
         }
         </div>
-        <div className='d-flex flex-wrap' style={{ gap: '14px' }}>
+        <div className='d-flex flex-wrap ms-2' style={{ gap: '14px' }}>
           <div className='h4 m-0 text-primary'>{deck.newCards}</div>
           <div className='h4 m-0 text-danger'>{deck.learningCards}</div>
           <div className='h4 m-0 text-success'>{deck.completedCards}</div>
