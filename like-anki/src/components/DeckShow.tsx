@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { loadData } from '../localforageUtils';
 import DeckModel from '../model/DeckModel';
+import CardModel from '../model/CardModel';
+import Cards from './CardList';
 import Card from './Card';
 
 const DeckShow: React.FC= () => {
@@ -30,10 +32,16 @@ const DeckShow: React.FC= () => {
         loadInitialData();
     }, [deckId]);    
 
+    // click destro porta all'apertura della card nella parte destra
+    const [showedCard, setShowedCard] = React.useState<CardModel>();
+    const handleLeftClick = (card: CardModel) => {
+        setShowedCard(card);
+    };
+
     return (
         deck ? (
-            <div className='d-flex gap-3' style={{ maxWidth: '20%', minWidth: '210px' }}>
-                <div className='ms-3 w-100'>
+            <div className='d-flex gap-3'>
+                <div className='ms-3 w-100' style={{ maxWidth: '20%', minWidth: '210px' }}>
                     <ButtonAction onClickAction={handleRedirectionToHomePage} text='Go back' />
                     <div className='d-flex align-items-center gap-3'>
                         <div className='h4 wrap text-break'>{deck.name}</div>
@@ -43,11 +51,14 @@ const DeckShow: React.FC= () => {
                     </div>
                     <div>
                         {deck.cards.map((card) => (
-                            <Card key={card.id} card={card} />
+                            <Cards key={card.id} card={card} handleLeftClick={handleLeftClick}/>
                         ))}
                     </div>
                 </div>
-                    <div className='vr' style={{ minHeight: '100vh', minWidth: '4px', backgroundColor: 'black', opacity:'0.6' }}> </div>
+                <div className='vr' style={{ minHeight: '100vh', minWidth: '4px', backgroundColor: 'black', opacity:'0.6' }}> </div>
+                { showedCard ? (
+                    <Card card={showedCard}/>
+                ) : null }
             </div>
         ) : null
     );
