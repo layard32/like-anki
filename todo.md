@@ -1,6 +1,6 @@
 * vedere come cancellare l'input senza eliminare lo stato da inputfield
 
-* react router per routing (per ora NON voglio fare back-end)
+* fare card da vedere da deckshow
 
 * gestione edit facendo click destro sul deck
 
