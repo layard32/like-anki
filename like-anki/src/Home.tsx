@@ -6,6 +6,9 @@ import Modal from './components/ui/Modal';
 import InputFieldAction from './components/ui/InputFieldAction';
 import AddCard from './components/AddCard';
 import CardModel from './model/CardModel';
+import DeckModel from './model/DeckModel';
+import { saveData, loadData } from './localforageUtils';
+import { useEffect } from 'react';
 
 const Home: React.FC = () => {
     // logica per entrambi i modali (sia aggiunta deck che card ad un deck)
@@ -20,9 +23,31 @@ const Home: React.FC = () => {
       else setShowModalCard(false);
     };
 
-  // stati per la gestione dei deck e cards
+  // stati per la gestione dei deck e cards con salvataggio tramite libreria localforage
   const [decks, dispatchDecks] = React.useReducer(DeckReducer, []);
   const [cards, dispatchCards] = React.useReducer(CardReducer, []);
+
+  useEffect(() => {
+    const loadInitialData = async () => {
+      const storedDecks: DeckModel[] = await loadData('decks') as DeckModel[];
+      const storedCards: CardModel[] = await loadData('cards') as CardModel[];
+      if (storedDecks) {
+        dispatchDecks({ type: 'SET-DECKS', payload: storedDecks });
+      }
+      if (storedCards) {
+        dispatchCards({ type: 'SET-CARDS', payload: storedCards });
+      }
+    };
+    loadInitialData();
+  }, []);
+
+  useEffect(() => {
+    saveData('decks', decks);
+  }, [decks]);
+
+  useEffect(() => {
+    saveData('cards', cards);
+  }, [cards]);
 
   // gestione con stato e handler per il modal che aggiunge un deck
   const [deckName, setDeckName] = React.useState<string>('');

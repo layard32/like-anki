@@ -5,7 +5,8 @@ type ActionType =
     | { type: 'ADD-CARD', payload: CardModel }
     | { type: 'REMOVE-CARD', payload: { id: number } }
     | { type: 'EDIT-CARD', payload: { id:number, question: string, answer: string, status: 'new' | 'learning' | 'completed', deckId: number } }
-    | { type: 'CHANGE-STATUS-CARD', payload: { id:number, status: 'new' | 'learning' | 'completed' } };
+    | { type: 'CHANGE-STATUS-CARD', payload: { id:number, status: 'new' | 'learning' | 'completed' } }
+    | { type: 'SET-CARDS', payload: CardModel[] };
 
 const CardReducer = (state: CardModel[], action: ActionType): CardModel[] => {
     switch (action.type) {
@@ -23,6 +24,8 @@ const CardReducer = (state: CardModel[], action: ActionType): CardModel[] => {
                 if (card.id === action.payload.id) return { ...card, status: action.payload.status };
                 return card;
             })
+        case 'SET-CARDS':
+            return action.payload;
         default:
             return state;
     }
