@@ -11,17 +11,17 @@ import { saveData, loadData } from './localforageUtils';
 import { useEffect } from 'react';
 
 const Home: React.FC = () => {
-    // logica per entrambi i modali (sia aggiunta deck che card ad un deck)
-    const [showModalDeck, setShowModalDeck] = React.useState<boolean>(false);
-    const [showModalCard, setShowModalCard] = React.useState<boolean>(false);
-    const handleModalDeck = () => {
-      if (!showModalDeck && !showModalCard) setShowModalDeck(true);
-      else setShowModalDeck(false);
-    };
-    const handleModalCard = () => {
-      if (!showModalCard && !showModalDeck) setShowModalCard(true);
-      else setShowModalCard(false);
-    };
+  // logica per entrambi i modali (sia aggiunta deck che card ad un deck)
+  const [showModalDeck, setShowModalDeck] = React.useState<boolean>(false);
+  const [showModalCard, setShowModalCard] = React.useState<boolean>(false);
+  const handleModalDeck = () => {
+    if (!showModalDeck && !showModalCard) setShowModalDeck(true);
+    else setShowModalDeck(false);
+  };
+  const handleModalCard = () => {
+    if (!showModalCard && !showModalDeck) setShowModalCard(true);
+    else setShowModalCard(false);
+  };
 
   // stati per la gestione dei deck e cards con salvataggio tramite libreria localforage
   const [decks, dispatchDecks] = React.useReducer(DeckReducer, []);

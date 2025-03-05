@@ -22,7 +22,7 @@ const AddCard: React.FC<Props> = ({createCard, deckForCards, cardQuestion, cardA
     const deckId = decks.find(deck => deck.name === deckName)?.id;
     if (deckId) setDeckForCards(deckId);
   }
-  // 2. un array con i nomi dei decks per il select del modale
+  // 2. un array con i nomi dei decks per il select
   const deckNames = decks.map(deck => deck.name);
 
   return (

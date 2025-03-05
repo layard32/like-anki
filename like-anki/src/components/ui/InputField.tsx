@@ -8,15 +8,13 @@ interface Props {
 }
 
 const InputField: React.FC<Props> = ({name, setName, handleEnterKeyDown}: Props) => {
-    // effect hook per mettere focus quando viene montata e rimuovere il testo quando viene smontata
+    // effect hook per mettere focus quando viene montata e resettare il testo correttamente quando viene montata
     const inputRef = useRef<HTMLInputElement>(null);
     useEffect(() => {
         if (inputRef.current) inputRef.current.focus();
-        // clean up function
-        // TOFIX: the clean up deletes the name when a new inputfield is mounted 
-        // return () => {
-        //     setName('');
-        // }
+        return () => {
+            setName(name);
+        };
     }, []);
 
     return (

@@ -1,6 +1,5 @@
 import React from 'react'
 import CardModel from '../model/CardModel'
-import { useState } from 'react';
 
 interface Props {
     card: CardModel;
