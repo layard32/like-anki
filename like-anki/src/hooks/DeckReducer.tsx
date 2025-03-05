@@ -3,7 +3,7 @@ import DeckModel from '../model/DeckModel';
 import CardModel from '../model/CardModel';
 
 type DeckAction = 
-    | { type: 'ADD-DECK', payload: string }
+    | { type: 'ADD-DECK', payload: {name: string, id: number} }
     | { type: 'REMOVE-DECK', payload: number }
     | { type: 'EDIT-DECK', payload: { id: number, text: string } }
     | { type: 'ADD-CARD-TO-DECK', payload: { id: number, card: CardModel } }
@@ -27,8 +27,8 @@ const DeckReducer = (state: DeckModel[], action: DeckAction): DeckModel[] => {
             return [
                 ...state, 
                 { 
-                    id: Math.floor(Math.random() * 10) + 1, 
-                    name: action.payload, 
+                    id: action.payload.id, 
+                    name: action.payload.name, 
                     completedCards: 0, 
                     learningCards: 0, 
                     newCards: 0, 

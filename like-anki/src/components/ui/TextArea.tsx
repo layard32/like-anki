@@ -1,4 +1,5 @@
 import React from 'react'
+import { useEffect } from 'react';
 
 interface Props {
     body: string;
@@ -7,6 +8,14 @@ interface Props {
 }
 
 const TextArea: React.FC<Props> = ({body, setBody, placeholder}: Props) => {
+    // come per input, clean up function per pulire il campo di testo
+    useEffect(() => {
+        return () => {
+            setBody(body);
+        };
+    }
+    , []);
+
     return (
         <div>
             <textarea

@@ -18,8 +18,8 @@ const SelectFromOptions: React.FC<Props> = ({options, setOptions}: Props) => {
             <select className="form-select" 
                     onChange={handleChange}>
                 <option value='-1'>Select a deck</option> 
-                { options.map((option) => (
-                    <option key={option} value={option}>{option}</option>
+                { options.map((option, index) => (
+                    <option key={index} value={option}>{option}</option>
                 ))}
             </select>
         </div>
