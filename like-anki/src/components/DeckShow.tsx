@@ -33,6 +33,7 @@ const DeckShow: React.FC= () => {
     }, [deckId]);    
 
     // click destro porta all'apertura della card nella parte destra
+    // la carta viene passata anche a cardlist, affinché questa venga evidenziata
     const [showedCard, setShowedCard] = React.useState<CardModel>();
     const handleLeftClick = (card: CardModel) => {
         setShowedCard(card);
@@ -51,7 +52,10 @@ const DeckShow: React.FC= () => {
                     </div>
                     <div>
                         {deck.cards.map((card) => (
-                            <Cards key={card.id} card={card} handleLeftClick={handleLeftClick}/>
+                            <Cards key={card.id} 
+                            card={card} 
+                            handleLeftClick={handleLeftClick}
+                            selectedCard={showedCard}/>
                         ))}
                     </div>
                 </div>
