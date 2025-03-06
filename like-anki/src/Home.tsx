@@ -50,12 +50,13 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     saveData('decks', decks);
-    saveData('deckIdNumber', deckIdNumber);
+    // questi if servono ad evitare che l'id impostato inizialmente da state (1) venga salvato
+    if (deckIdNumber !== 1) saveData('deckIdNumber', deckIdNumber);
   }, [decks, deckIdNumber]);
 
   useEffect(() => {
     saveData('cards', cards);
-    saveData('cardIdNumber', cardIdNumber);
+    if (cardIdNumber !== 1) saveData('cardIdNumber', cardIdNumber);
   }, [cards, cardIdNumber]);
 
   // gestione con stato e handler per il modal che aggiunge un deck
