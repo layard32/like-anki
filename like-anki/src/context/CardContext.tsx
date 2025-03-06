@@ -11,7 +11,7 @@ interface Props {
     children: React.ReactNode;
 }
 
-export const DeckProvider: React.FC<Props> = ({reducer, children}: Props) => {
+export const CardProvider: React.FC<Props> = ({reducer, children}: Props) => {
     const [state, dispatch] = React.useReducer(reducer, []);
 
     return (
