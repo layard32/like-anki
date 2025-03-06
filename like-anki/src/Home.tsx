@@ -1,7 +1,5 @@
 import React from 'react';
 import DeckList from './components/DeckList';
-import DeckReducer from './hooks/DeckReducer';
-import CardReducer from './hooks/CardReducer';
 import Modal from './components/ui/Modal';
 import InputFieldAction from './components/ui/InputFieldAction';
 import AddCard from './components/AddCard';
@@ -131,7 +129,7 @@ const Home: React.FC = () => {
       <button className='btn btn-secondary' onClick={handleModalCard}> Add card to a deck </button>
     </div>
 
-    <DeckList decks = {decks} dispatch = {dispatchDecks} />      
+    <DeckList />      
     </>
   );
 };

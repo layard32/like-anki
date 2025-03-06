@@ -1,14 +1,14 @@
 import React from 'react';
-import DeckModel from '../model/DeckModel';
 import Deck from './Deck';
+import { useDeckState } from '../context/DeckContext';
 
 
 interface Props {
-    decks: DeckModel[];
-    dispatch: React.Dispatch<any>;
 }
 
-const DeckList: React.FC<Props> = ({ decks, dispatch }: Props) => {
+const DeckList: React.FC<Props> = () => {
+    const decks = useDeckState();
+
     return (
         <div className='mt-5 d-flex flex-column align-items-center no-wrap mx-auto' style={{ maxWidth: '35%', minWidth: '390px' }}>
             <div className='w-100 mb-3'>
@@ -21,8 +21,8 @@ const DeckList: React.FC<Props> = ({ decks, dispatch }: Props) => {
                     </div>
                 </div>
             </div>
-            {decks.map((deck) => (
-                    <Deck key={deck.id} deck={deck} dispatch={dispatch} />
+            {decks.map((deck, index) => (
+                    <Deck key={deck.id} deck={deck} />
             ))} 
         </div>
     );

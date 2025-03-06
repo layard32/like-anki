@@ -5,13 +5,15 @@ import { MdDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import { Dropdown } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { useDeckDispatch } from '../context/DeckContext';
 
 interface Props {
   deck: DeckModel;
-  dispatch: React.Dispatch<any>;
 }
 
-const Deck: React.FC<Props> = ({ deck, dispatch }: Props) => {
+const Deck: React.FC<Props> = ({ deck }: Props) => {
+    const dispatch = useDeckDispatch();
+
   // gestione dell'edit con due stati:
   // uno stato per tenere conto se il deck è in modalità edit
   // uno stato per tenere traccia del testo inserito

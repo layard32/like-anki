@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { loadData } from '../localforageUtils';
 import DeckModel from '../model/DeckModel';
 import CardModel from '../model/CardModel';
-import Cards from './CardList';
+import CardList from './CardList';
 import Card from './Card';
 
 const DeckShow: React.FC= () => {
@@ -52,7 +52,7 @@ const DeckShow: React.FC= () => {
                     </div>
                     <div>
                         {deck.cards.map((card) => (
-                            <Cards key={card.id} 
+                            <CardList key={card.id} 
                             card={card} 
                             handleLeftClick={handleLeftClick}
                             selectedCard={showedCard}/>
