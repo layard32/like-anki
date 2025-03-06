@@ -9,7 +9,7 @@ type DeckAction =
     | { type: 'ADD-CARD-TO-DECK', payload: { id: number, card: CardModel } }
     | { type: 'REMOVE-CARD-FROM-DECK', payload: { deckId: number, cardId: number } }
     | { type: 'UPDATE-CARD-STATUS', payload: { deckId: number, cardId: number, status: 'new' | 'learning' | 'completed' } }
-    | { type: 'SET-DECKS', payload: DeckModel[] };
+    | { type: 'INIT', payload: DeckModel[] };
 
 // la funzione aggiorna i contatori delle carte di un deck in certe azioni
 const updateCardCounts = (deck: DeckModel): DeckModel => {
@@ -71,7 +71,7 @@ const DeckReducer = (state: DeckModel[], action: DeckAction): DeckModel[] => {
                 }
                 return deck;
             });
-        case 'SET-DECKS':
+        case 'INIT':
             return action.payload;
         default:
             return state;

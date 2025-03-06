@@ -1,5 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import CardModel from '../model/CardModel';
+import { saveData, loadData } from '../localforageUtils';
 
 // creo un contesto per lo state ed un contesto per il dispatch
 const CardStateContext = React.createContext<CardModel[] | undefined>(undefined);
@@ -13,6 +14,22 @@ interface Props {
 
 export const CardProvider: React.FC<Props> = ({reducer, children}: Props) => {
     const [state, dispatch] = React.useReducer(reducer, []);
+    
+    // implemento il save / load da localforage nel contesto, per mantenere persistance
+    // loading iniziale
+    const [loaded, setLoaded] = React.useState<boolean>(false);
+    useEffect(() => {
+        const fetchData = async () => {
+            const storedCards: CardModel[] = await loadData('cards') as CardModel[];
+            if (storedCards) dispatch({ type: 'INIT', payload: storedCards });
+            setLoaded(true);
+        };
+        fetchData();
+    }, []);
+    // salvataggio ad ogni cambiamento
+    useEffect(() => {
+        if (loaded) saveData('cards', state);
+    }, [state, loaded]);
 
     return (
         <CardStateContext.Provider value={state}>

@@ -36,12 +36,12 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     const loadInitialData = async () => {
-        const storedDecks: DeckModel[] = await loadData('decks') as DeckModel[];
-        const storedCards: CardModel[] = await loadData('cards') as CardModel[];
+        // const storedDecks: DeckModel[] = await loadData('decks') as DeckModel[];
+        // const storedCards: CardModel[] = await loadData('cards') as CardModel[];
         const storedDeckIdNumber: number = await loadData('deckIdNumber') as number;
         const storedCardIdNumber: number = await loadData('cardIdNumber') as number;
-        if (storedDecks) dispatchDecks({ type: 'SET-DECKS', payload: storedDecks });
-        if (storedCards) dispatchCards({ type: 'SET-CARDS', payload: storedCards });
+        // if (storedDecks) dispatchDecks({ type: 'SET-DECKS', payload: storedDecks });
+        // if (storedCards) dispatchCards({ type: 'SET-CARDS', payload: storedCards });
         if (storedDeckIdNumber) setDeckIdNumber(storedDeckIdNumber);
         if (storedCardIdNumber) setCardIdNumber(storedCardIdNumber);
     };
@@ -49,13 +49,13 @@ const Home: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    saveData('decks', decks);
+    // saveData('decks', decks);
     // questi if servono ad evitare che l'id impostato inizialmente da state (1) venga salvato
     if (deckIdNumber !== 1) saveData('deckIdNumber', deckIdNumber);
   }, [decks, deckIdNumber]);
 
   useEffect(() => {
-    saveData('cards', cards);
+    // saveData('cards', cards);
     if (cardIdNumber !== 1) saveData('cardIdNumber', cardIdNumber);
   }, [cards, cardIdNumber]);
 
