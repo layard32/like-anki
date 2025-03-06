@@ -28,7 +28,10 @@ export const DeckProvider: React.FC<Props> = ({reducer, children}: Props) => {
     }, []);
     // salvataggio ad ogni cambiamento
     useEffect(() => {
-        if (loaded) saveData('decks', state);
+        if (loaded) { 
+            saveData('decks', state);
+            console.log("decks", state)
+        }
     }, [state, loaded]);
 
     return (

@@ -28,7 +28,10 @@ export const CardProvider: React.FC<Props> = ({reducer, children}: Props) => {
     }, []);
     // salvataggio ad ogni cambiamento
     useEffect(() => {
-        if (loaded) saveData('cards', state);
+        if (loaded) {
+            saveData('cards', state);
+            console.log("cards:", state)
+        } 
     }, [state, loaded]);
 
     return (
