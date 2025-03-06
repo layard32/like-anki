@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import DeckModel from '../model/DeckModel';
 import { saveData, loadData } from '../localforageUtils';
 
-// creo un contesto per lo state ed un contesto per il dispatch
+// creo un contesto per lo state, un contesto per il dispatch ed uno per l'id
 const DeckStateContext = React.createContext<DeckModel[] | undefined>(undefined);
 const DeckDispatchContext = React.createContext<React.Dispatch<any> | undefined>(undefined);
 
@@ -28,10 +28,7 @@ export const DeckProvider: React.FC<Props> = ({reducer, children}: Props) => {
     }, []);
     // salvataggio ad ogni cambiamento
     useEffect(() => {
-        if (loaded) { 
-            saveData('decks', state);
-            console.log("decks", state)
-        }
+        if (loaded) saveData('decks', state);
     }, [state, loaded]);
 
     return (

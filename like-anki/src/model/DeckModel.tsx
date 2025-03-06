@@ -6,7 +6,6 @@ interface DeckModel {
     completedCards: number;
     learningCards: number;
     newCards: number;
-    cards: CardModel[];
 }
 
 export default DeckModel;

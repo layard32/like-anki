@@ -51,12 +51,12 @@ const DeckShow: React.FC= () => {
                         <div className='h4 text-success'>{deck.completedCards}</div>
                     </div>
                     <div>
-                        {deck.cards.map((card) => (
+                        {/* {deck.cards.map((card) => (
                             <CardList key={card.id} 
                             card={card} 
                             handleLeftClick={handleLeftClick}
                             selectedCard={showedCard}/>
-                        ))}
+                        ))} */}
                     </div>
                 </div>
                 <div className='vr' style={{ minHeight: '100vh', minWidth: '4px', backgroundColor: 'black', opacity:'0.6' }}> </div>

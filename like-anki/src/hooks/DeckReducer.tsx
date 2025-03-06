@@ -3,23 +3,11 @@ import DeckModel from '../model/DeckModel';
 import CardModel from '../model/CardModel';
 
 type DeckAction = 
-    | { type: 'ADD-DECK', payload: {name: string, id: number} }
+    | { type: 'ADD-DECK', payload: string }
     | { type: 'REMOVE-DECK', payload: number }
     | { type: 'EDIT-DECK', payload: { id: number, text: string } }
-    | { type: 'ADD-CARD-TO-DECK', payload: { id: number, card: CardModel } }
-    | { type: 'REMOVE-CARD-FROM-DECK', payload: { deckId: number, cardId: number } }
-    | { type: 'UPDATE-CARD-STATUS', payload: { deckId: number, cardId: number, status: 'new' | 'learning' | 'completed' } }
-    | { type: 'INIT', payload: DeckModel[] };
-
-// la funzione aggiorna i contatori delle carte di un deck in certe azioni
-const updateCardCounts = (deck: DeckModel): DeckModel => {
-    return {
-        ...deck,
-        newCards: deck.cards.filter(card => card.status === 'new').length,
-        learningCards: deck.cards.filter(card => card.status === 'learning').length,
-        completedCards: deck.cards.filter(card => card.status === 'completed').length,
-    };
-};
+    | { type: 'INIT', payload: DeckModel[] }
+    | { type: 'SYNC-CARDS', payload: CardModel[] }
 
 const DeckReducer = (state: DeckModel[], action: DeckAction): DeckModel[] => {
     switch (action.type) {
@@ -27,12 +15,11 @@ const DeckReducer = (state: DeckModel[], action: DeckAction): DeckModel[] => {
             return [
                 ...state, 
                 { 
-                    id: action.payload.id, 
-                    name: action.payload.name, 
+                    id: state.length > 0 ? state[state.length - 1].id + 1 : 1, 
+                    name: action.payload, 
                     completedCards: 0, 
                     learningCards: 0, 
                     newCards: 0, 
-                    cards: [] 
                 }
             ];
         case 'REMOVE-DECK':
@@ -42,37 +29,16 @@ const DeckReducer = (state: DeckModel[], action: DeckAction): DeckModel[] => {
                 if (deck.id === action.payload.id) return { ...deck, name: action.payload.text };
                 return deck;
             });
-        case 'ADD-CARD-TO-DECK':
-            return state.map((deck) => {
-                if (deck.id === action.payload.id) {
-                    const updatedDeck = { ...deck, cards: [...deck.cards, action.payload.card] };
-                    return updateCardCounts(updatedDeck);
-                }
-                return deck;
-            });
-        case 'REMOVE-CARD-FROM-DECK':
-            return state.map((deck) => {
-                if (deck.id === action.payload.deckId) {
-                    const updatedDeck = { ...deck, cards: deck.cards.filter(card => card.id !== action.payload.cardId) };
-                    return updateCardCounts(updatedDeck);
-                }
-                return deck;
-            });
-        case 'UPDATE-CARD-STATUS':
-            return state.map((deck) => {
-                if (deck.id === action.payload.deckId) {
-                    const updatedDeck = { 
-                        ...deck, 
-                        cards: deck.cards.map(card => 
-                            card.id === action.payload.cardId ? { ...card, status: action.payload.status } : card
-                        )
-                    };
-                    return updateCardCounts(updatedDeck);
-                }
-                return deck;
-            });
         case 'INIT':
             return action.payload;
+        case 'SYNC-CARDS':
+            return state.map((deck) => {
+                const cardsOfDeck = action.payload.filter((card) => card.deckId === deck.id);
+                const completedCards = cardsOfDeck.filter((card) => card.status === 'completed').length;
+                const learningCards = cardsOfDeck.filter((card) => card.status === 'learning').length;
+                const newCards = cardsOfDeck.filter((card) => card.status === 'new').length;
+                return { ...deck, completedCards: completedCards, learningCards: learningCards, newCards: newCards };
+            });
         default:
             return state;
     }

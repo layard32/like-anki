@@ -30,41 +30,11 @@ const Home: React.FC = () => {
   const cards = useCardState();
   const dispatchCards = useCardDispatch();
 
-  // utilizzo un id incrementale e non randomico per evitare di avere due figli con stesso id
-  const [deckIdNumber, setDeckIdNumber] = React.useState<number>(1);
-  const [cardIdNumber, setCardIdNumber] = React.useState<number>(1);
-
-  useEffect(() => {
-    const loadInitialData = async () => {
-        // const storedDecks: DeckModel[] = await loadData('decks') as DeckModel[];
-        // const storedCards: CardModel[] = await loadData('cards') as CardModel[];
-        const storedDeckIdNumber: number = await loadData('deckIdNumber') as number;
-        const storedCardIdNumber: number = await loadData('cardIdNumber') as number;
-        // if (storedDecks) dispatchDecks({ type: 'SET-DECKS', payload: storedDecks });
-        // if (storedCards) dispatchCards({ type: 'SET-CARDS', payload: storedCards });
-        if (storedDeckIdNumber) setDeckIdNumber(storedDeckIdNumber);
-        if (storedCardIdNumber) setCardIdNumber(storedCardIdNumber);
-    };
-    loadInitialData();
-  }, []);
-
-  useEffect(() => {
-    // saveData('decks', decks);
-    // questi if servono ad evitare che l'id impostato inizialmente da state (1) venga salvato
-    if (deckIdNumber !== 1) saveData('deckIdNumber', deckIdNumber);
-  }, [decks, deckIdNumber]);
-
-  useEffect(() => {
-    // saveData('cards', cards);
-    if (cardIdNumber !== 1) saveData('cardIdNumber', cardIdNumber);
-  }, [cards, cardIdNumber]);
-
   // gestione con stato e handler per il modal che aggiunge un deck
   const [deckName, setDeckName] = React.useState<string>('');
   const handleAddDeck = () => {
     if (deckName !== '') {
-        dispatchDecks({ type: 'ADD-DECK', payload: { name: deckName, id: deckIdNumber } });
-        setDeckIdNumber(deckIdNumber + 1);
+        dispatchDecks({ type: 'ADD-DECK', payload: deckName });
         handleModalDeck();
     }
   };
@@ -73,24 +43,13 @@ const Home: React.FC = () => {
   const [cardQuestion, setCardQuestion] = React.useState<string>('');
   const [cardAnswer, setCardAnswer] = React.useState<string>('');
   const [deckForCards, setDeckForCards] = React.useState<number>(0);
-  // creazione di una nuova card ed aggiunta al relativo deck
-  // ATTENZIONE: sposto parte della logica dal reducer a qui, perché la card mi serve per un altro dispatch
-  // cosa non particolarmente corretta, ma in questo caso mi sembra la soluzione più semplice
   const handleAddCard = () => {
     if (cardQuestion !== '' && cardAnswer !== '' && deckForCards > 0) {
-      // logica della creazione della card rubata dal reducer
-      const newCard: CardModel = {
-        id: cardIdNumber,
-        question: cardQuestion,
-        answer: cardAnswer,
-        status: 'new',
-        deckId: deckForCards
-      };
-      // creazione nuova carta ed incremento id
-      dispatchCards({ type: 'ADD-CARD', payload: newCard });
-      setCardIdNumber(cardIdNumber + 1);
-      // aggiunta card al deck
-      dispatchDecks({ type: 'ADD-CARD-TO-DECK', payload: { id: deckForCards, card: newCard } });
+      dispatchCards({ type: 'ADD-CARD', payload: { question: cardQuestion, 
+                    answer: cardAnswer,
+                    deckId: deckForCards  } });
+      // oltre ad aggiungere la card, aggiorno anche il deck 
+      dispatchDecks({ type: 'SYNC-CARDS', payload: cards });
       handleModalCard();
     }
   };
