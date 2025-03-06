@@ -9,6 +9,8 @@ import CardModel from './model/CardModel';
 import DeckModel from './model/DeckModel';
 import { saveData, loadData } from './localforageUtils';
 import { useEffect } from 'react';
+import { useDeckDispatch, useDeckState } from './context/DeckContext';
+import { useCardDispatch, useCardState } from './context/CardContext';
 
 const Home: React.FC = () => {
   // logica per entrambi i modali (sia aggiunta deck che card ad un deck)
@@ -24,8 +26,12 @@ const Home: React.FC = () => {
   };
 
   // stati per la gestione dei deck e cards con salvataggio tramite libreria localforage
-  const [decks, dispatchDecks] = React.useReducer(DeckReducer, []);
-  const [cards, dispatchCards] = React.useReducer(CardReducer, []);
+  // li prendo dal contesto
+  const decks = useDeckState();
+  const dispatchDecks = useDeckDispatch();
+  const cards = useCardState();
+  const dispatchCards = useCardDispatch();
+
   // utilizzo un id incrementale e non randomico per evitare di avere due figli con stesso id
   const [deckIdNumber, setDeckIdNumber] = React.useState<number>(1);
   const [cardIdNumber, setCardIdNumber] = React.useState<number>(1);

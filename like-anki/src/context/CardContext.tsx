@@ -24,17 +24,17 @@ export const CardProvider: React.FC<Props> = ({reducer, children}: Props) => {
 }
 
 // creo dei custom hooks per accedere allo stato e al dispatch (good pattern per evitare errori)
-export const useDeckState = () => {
+export const useCardState = () => {
     const context = useContext(CardStateContext);
     if (context === undefined) {
-        throw new Error('useDeckState must be used within a DeckProvider');
+        throw new Error('useCardState must be used within a CardProvider');
     }
     return context;
 }
-export const useDeckDispatch = () => {
+export const useCardDispatch = () => {
     const context = useContext(CardDispatchContext);
     if (context === undefined) {
-        throw new Error('useDeckDispatch must be used within a DeckProvider');
+        throw new Error('useCardDispatch must be used within a CardProvider');
     }
     return context;
 }
