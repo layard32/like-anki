@@ -26,6 +26,14 @@ const cardsSlice = createSlice({
             return state.filter((card) => card.id !== action.payload);
         },
         
+        editCard: (state, action: PayloadAction<{id: number, question: string, answer: string}>) => {
+            const card = state.find((card) => card.id === action.payload.id);
+            if (card) {
+                card.question = action.payload.question;
+                card.answer = action.payload.answer;
+            }
+        },
+
         syncDecks: (state, action: PayloadAction<DeckModel[]>) => {
             // elimino le carte relative a deck non più esistenti
             return state.filter((card) => action.payload.some((deck) => deck.id === card.deckId));
@@ -35,5 +43,5 @@ const cardsSlice = createSlice({
 
 
 // esporto reducer ed azioni
-export const { addCard, removeCard, syncDecks } = cardsSlice.actions;
+export const { addCard, removeCard, syncDecks, editCard } = cardsSlice.actions;
 export default cardsSlice.reducer;

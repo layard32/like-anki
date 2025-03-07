@@ -59,7 +59,7 @@ const DeckShow: React.FC= () => {
                 </div>
                 <div className='vr' style={{ minHeight: '100vh', minWidth: '4px', backgroundColor: 'black', opacity:'0.6' }}> </div>
                 { showedCard ? (
-                    <Card card={showedCard}/>
+                    <Card cardId={showedCard.id}/>
                 ) : null }
             </div>
         ) : null
