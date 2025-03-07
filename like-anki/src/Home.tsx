@@ -3,12 +3,8 @@ import DeckList from './components/DeckList';
 import Modal from './components/ui/Modal';
 import InputFieldAction from './components/ui/InputFieldAction';
 import AddCard from './components/AddCard';
-import CardModel from './model/CardModel';
-import DeckModel from './model/DeckModel';
-import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from './state/store';
-import { AppDispatch } from './state/store';
+import { RootState, AppDispatch } from './state/store';
 import { addDeck } from './state/DecksSlice';
 import { addCard } from './state/CardsSlice';
 
@@ -26,9 +22,8 @@ const Home: React.FC = () => {
     else setShowModalCard(false);
   };
 
-  // prendo decks, cards e dispatch dallo store
+  // prendo decks e dispatch dallo store
   const decks = useSelector((state: RootState) => state.decks);
-  const cards = useSelector((state: RootState) => state.cards);
   const dispatch = useDispatch<AppDispatch>();
 
   // stato per il modale che aggiunge i deck

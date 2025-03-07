@@ -3,11 +3,12 @@ import { useParams } from 'react-router-dom';
 import ButtonAction from './ui/ButtonAction';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { loadData } from '../localforageUtils';
+import { useSelector } from 'react-redux';
+import { RootState } from '../state/store';
 import DeckModel from '../model/DeckModel';
 import CardModel from '../model/CardModel';
-import CardList from './CardList';
 import Card from './Card';
+import CardList from './CardList';
 
 const DeckShow: React.FC= () => {
     // utilizzo l'useParams hook per prendere il parametro della nested route
@@ -19,13 +20,13 @@ const DeckShow: React.FC= () => {
         navigate('/');
     };
 
-    // prendo l'insieme dei deck da localforage per applicare una semplice validazione sull'url
+    // prendo l'insieme dei deck dallo store per applicare una semplice validazione sull'url
     // se l'url è valido, utilizzo uno stato per tenere traccia del deck attuale
     const [deck, setDeck] = useState<DeckModel>();
+    const decks = useSelector((state: RootState) => state.decks);
     useEffect(() => {
         const loadInitialData = async () => {
-            const storedDecks: DeckModel[] = await loadData('decks') as DeckModel[];
-            const correspondigDeck = storedDecks.find((deck: DeckModel) => deck.id === Number(deckId));
+            const correspondigDeck = decks.find((deck: DeckModel) => deck.id === Number(deckId));
             if (!correspondigDeck) handleRedirectionToHomePage();
             else setDeck(correspondigDeck);
         };
@@ -39,6 +40,9 @@ const DeckShow: React.FC= () => {
         setShowedCard(card);
     };
 
+    // prendo l'insieme delle cards dallo store
+    const cards = useSelector((state: RootState) => state.cards);
+
     return (
         deck ? (
             <div className='d-flex gap-3'>
@@ -51,12 +55,12 @@ const DeckShow: React.FC= () => {
                         <div className='h4 text-success'>{deck.completedCards}</div>
                     </div>
                     <div>
-                        {/* {deck.cards.map((card) => (
+                        {cards.filter((card) => card.deckId === deck.id).map((card) => (
                             <CardList key={card.id} 
                             card={card} 
                             handleLeftClick={handleLeftClick}
-                            selectedCard={showedCard}/>
-                        ))} */}
+                            selectedCard={showedCard}/>))
+                        }
                     </div>
                 </div>
                 <div className='vr' style={{ minHeight: '100vh', minWidth: '4px', backgroundColor: 'black', opacity:'0.6' }}> </div>

@@ -8,11 +8,8 @@ import { Provider } from "react-redux";
 
 const App: React.FC = () => {
   // utilizzo react-router (nella v6) per la gestione delle routes
-  // utilizzo i contesti per fornire a tutte le componenti decks, cards e relativi dispatch
   return (
     <div>
-      {/* <DeckProvider reducer={DeckReducer}>
-        <CardProvider reducer={CardReducer}> */}
         <Provider store={store}> 
           <Router>
               <Routes>
@@ -22,8 +19,6 @@ const App: React.FC = () => {
               </Routes>
             </Router>
         </Provider>
-        {/* </CardProvider>
-      </DeckProvider> */}
     </div>
   );
 }

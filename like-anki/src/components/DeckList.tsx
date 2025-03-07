@@ -22,7 +22,7 @@ const DeckList: React.FC<Props> = () => {
                     </div>
                 </div>
             </div>
-            {decks.map((deck, index) => (
+            {decks.map((deck) => (
                     <Deck key={deck.id} deck={deck} />
             ))} 
         </div>

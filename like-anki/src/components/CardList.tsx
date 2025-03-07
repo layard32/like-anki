@@ -7,7 +7,7 @@ interface Props {
     selectedCard: CardModel | undefined;
 }
 
-const Cards: React.FC<Props> = ({ card, handleLeftClick, selectedCard }: Props) => {
+const CardList: React.FC<Props> = ({ card, handleLeftClick, selectedCard }: Props) => {
 
     return (
         <div className='card mt-3 mb-2' onClick={() => handleLeftClick(card)}
@@ -24,4 +24,4 @@ const Cards: React.FC<Props> = ({ card, handleLeftClick, selectedCard }: Props) 
     )
 }
 
-export default Cards;
+export default CardList;

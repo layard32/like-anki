@@ -11,8 +11,8 @@ export const store = configureStore({
   },
 });
 
-// il tipo del return di store.getState
-// serve per tipizzare useSelector, usato nel momento in cui accediamo allo store
+// il tipo del return di store.getState: serve per tipizzare useSelector, 
+// usato nel momento in cui accediamo allo store
 export type RootState = ReturnType<typeof store.getState>;
 // esportiamo anche il tipo del dispatch
 export type AppDispatch = typeof store.dispatch;
