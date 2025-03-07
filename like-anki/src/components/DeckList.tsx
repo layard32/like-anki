@@ -2,6 +2,7 @@ import React from 'react';
 import Deck from './Deck';
 import { useSelector } from 'react-redux';
 import { RootState } from '../state/store';
+import { motion, AnimatePresence } from "motion/react";
 
 interface Props {
 }
@@ -22,9 +23,27 @@ const DeckList: React.FC<Props> = () => {
                     </div>
                 </div>
             </div>
-            {decks.map((deck) => (
-                    <Deck key={deck.id} deck={deck} />
-            ))} 
+
+            <AnimatePresence> 
+                {decks.map((deck) => (
+                    <motion.div
+                        layout
+                        key={deck.id}
+                        style={{
+                            width: '100%',
+                        }}
+                        initial={{ opacity: 0, scale: 0 }}
+                        exit={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{
+                        duration: 0.4,
+                        scale: { type: "spring", visualDuration: 0.4, bounce: 0.25 },
+                    }}>
+                        <Deck key={deck.id} deck={deck} />
+                    </motion.div>
+                ))} 
+            </AnimatePresence>
+
         </div>
     );
 }
