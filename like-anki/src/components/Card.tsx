@@ -19,12 +19,6 @@ const Card: React.FC<Props> = ({ cardId }: Props) => {
     const dispatch = useDispatch<AppDispatch>();
     const card = useSelector((state: RootState) => state.cards.find((card) => card.id === cardId)) as CardModel;
     
-    // utilizzo useeffect per il caso in cui la carta attualmente selezionata venga eliminata
-    const [ showCard, setShowCard ] = React.useState<boolean>(true);
-    React.useEffect(() => {
-        if (!card) setShowCard(false);
-    }, [card]);
-
     // stati per la modifica di una carta
     const [ editable, setEditable ] = React.useState<boolean>(false);
     const [ newQuestion, setNewQuestion ] = React.useState<string>('question');
@@ -33,6 +27,16 @@ const Card: React.FC<Props> = ({ cardId }: Props) => {
         if (editable) setEditable(false);
         else setEditable(true);
     };
+
+    // utilizzo useeffect per il caso in cui la carta attualmente selezionata venga eliminata
+    const [ showCard, setShowCard ] = React.useState<boolean>(true);
+    React.useEffect(() => {
+        if (!card) setShowCard(false);
+        else {
+            setNewQuestion(card.question);
+            setNewAnswer(card.answer);
+        }
+    }, [card]);
 
     return (
         showCard ?
