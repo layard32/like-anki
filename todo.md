@@ -1,6 +1,4 @@
-* gestire i due dispath delle funzioni crud in maniera asincrona!!
-
-* edit ed eliminazione carta
+* persistenza dati redux
 
 * gestione edit facendo click destro sul deck
 
