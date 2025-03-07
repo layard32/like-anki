@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom';
 import ButtonAction from './ui/ButtonAction';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../state/store';
 import DeckModel from '../model/DeckModel';
@@ -21,17 +21,11 @@ const DeckShow: React.FC= () => {
     };
 
     // prendo l'insieme dei deck dallo store per applicare una semplice validazione sull'url
-    // se l'url è valido, utilizzo uno stato per tenere traccia del deck attuale
-    const [deck, setDeck] = useState<DeckModel>();
     const decks = useSelector((state: RootState) => state.decks);
+    const deck = decks.find((deck: DeckModel) => deck.id === Number(deckId));
     useEffect(() => {
-        const loadInitialData = async () => {
-            const correspondigDeck = decks.find((deck: DeckModel) => deck.id === Number(deckId));
-            if (!correspondigDeck) handleRedirectionToHomePage();
-            else setDeck(correspondigDeck);
-        };
-        loadInitialData();
-    }, [deckId]);    
+        if (!deck) handleRedirectionToHomePage();
+    }, []);
 
     // click destro porta all'apertura della card nella parte destra
     // la carta viene passata anche a cardlist, affinché questa venga evidenziata

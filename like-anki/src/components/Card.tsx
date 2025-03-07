@@ -2,8 +2,9 @@ import React from 'react'
 import CardModel from '../model/CardModel';
 import '../style/CardStyle.css';
 import { MdDelete } from "react-icons/md";
-import { removeCard } from '../state/CardsSlice';
 import { useDispatch } from 'react-redux';
+import { removeCardAndSync } from '../state/thunks';
+import { AppDispatch } from '../state/store';
 
 interface Props {
     card: CardModel;
@@ -11,7 +12,7 @@ interface Props {
 
 const Card: React.FC<Props> = ({ card }: Props) => {
     // utilizzo il dispatch per rimuovere ed editare la carta
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     // definisco uno stato per mostrare o meno la carta (se questa viene eliminata)
     const [ showCard, setShowCard ] = React.useState<boolean>(true);
 
@@ -23,7 +24,7 @@ const Card: React.FC<Props> = ({ card }: Props) => {
                         <MdDelete className='text-danger' 
                                 style={{ cursor: 'pointer', fontSize: '2rem' }} 
                                 onClick={() => {
-                                    dispatch(removeCard(card.id));
+                                    dispatch(removeCardAndSync(card.id));
                                     setShowCard(false);}}/>
                         <div className='h3'> Status: {card.status} </div>
                         <hr />

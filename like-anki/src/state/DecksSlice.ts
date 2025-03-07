@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import DeckModel from "../model/DeckModel";
+import CardModel from "../model/CardModel";
 
 const initialState: DeckModel[] = [];
 
@@ -32,11 +33,21 @@ const decksSlice = createSlice({
             });
         },
 
-        // TODO: SYNC CARDS
+        syncCards: (state, action: PayloadAction<CardModel[]>) => {
+            // considero solo le carte relative al deck
+            const cards = action.payload.filter((card) => state.some((deck) => deck.id === card.deckId));
+            // aggiorno il numero di carte per ogni deck
+            state.forEach((deck) => { 
+                deck.newCards = cards.filter((card) => card.deckId === deck.id && card.status === 'new').length;
+                deck.learningCards = cards.filter((card) => card.deckId === deck.id && card.status === 'learning').length;
+                deck.completedCards = cards.filter((card) => card.deckId === deck.id && card.status === 'completed').length;
+            }
+            );
+        },
     },
 });
 
 
 // esporto reducer ed azioni
-export const { addDeck, removeDeck, editDeck } = decksSlice.actions;
+export const { addDeck, removeDeck, editDeck, syncCards } = decksSlice.actions;
 export default decksSlice.reducer;

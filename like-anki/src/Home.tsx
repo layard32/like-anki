@@ -7,6 +7,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from './state/store';
 import { addDeck } from './state/DecksSlice';
 import { addCard } from './state/CardsSlice';
+// per aggiungere una card utilizzo un thunk (dopo l'aggiunta si syncronizzano i deck)
+import { addCardAndSync } from './state/thunks';
 
 const Home: React.FC = () => {
 
@@ -61,7 +63,7 @@ const Home: React.FC = () => {
                           setDeckForCards={setDeckForCards}
                           deckForCards={deckForCards}
                           createCard={() => {
-                            dispatch(addCard({
+                            dispatch(addCardAndSync({
                               question: cardQuestion,
                               answer: cardAnswer,
                               deckId: deckForCards

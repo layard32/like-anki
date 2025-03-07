@@ -7,7 +7,8 @@ import { Dropdown } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../state/store';
-import { editDeck, removeDeck } from '../state/DecksSlice';
+import { editDeck } from '../state/DecksSlice';
+import { removeDeckAndSync } from '../state/thunks';
 
 interface Props {
   deck: DeckModel;
@@ -57,7 +58,7 @@ const Deck: React.FC<Props> = ({ deck }: Props) => {
           <div className='h4 m-0 text-success'>{deck.completedCards}</div>
           <MdDelete className='text-danger' 
                     style={{ cursor: 'pointer', fontSize: '2rem' }} 
-                    onClick={() => dispatch(removeDeck(deck.id))} />
+                    onClick={() => dispatch(removeDeckAndSync(deck.id))} />
           <Dropdown>
             <Dropdown.Toggle variant="secondary" size='sm'>
               <CiEdit style={{ cursor: 'pointer', fontSize: '1.4rem' }} />
