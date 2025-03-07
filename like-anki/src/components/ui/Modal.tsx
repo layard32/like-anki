@@ -3,7 +3,6 @@ import React from 'react';
 interface Props {
     modalName: string;
     handleModal: () => void;
-    dispatch: React.Dispatch<any>;
     sonComponent?: React.ReactNode;
 }
 

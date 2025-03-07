@@ -1,7 +1,6 @@
-* aggiungere tutta data persistence nel contesto, anche dell'id
-* va rimossa anche dal deck!
+* gestire i due dispath delle funzioni crud in maniera asincrona!!
 
-* edit ed eliminazione carta (non vanno) 
+* edit ed eliminazione carta
 
 * gestione edit facendo click destro sul deck
 

@@ -5,12 +5,15 @@ import InputFieldAction from './components/ui/InputFieldAction';
 import AddCard from './components/AddCard';
 import CardModel from './model/CardModel';
 import DeckModel from './model/DeckModel';
-import { saveData, loadData } from './localforageUtils';
 import { useEffect } from 'react';
-import { useDeckDispatch, useDeckState } from './context/DeckContext';
-import { useCardDispatch, useCardState } from './context/CardContext';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from './state/store';
+import { AppDispatch } from './state/store';
+import { addDeck } from './state/DecksSlice';
+import { addCard } from './state/CardsSlice';
 
 const Home: React.FC = () => {
+
   // logica per entrambi i modali (sia aggiunta deck che card ad un deck)
   const [showModalDeck, setShowModalDeck] = React.useState<boolean>(false);
   const [showModalCard, setShowModalCard] = React.useState<boolean>(false);
@@ -23,36 +26,18 @@ const Home: React.FC = () => {
     else setShowModalCard(false);
   };
 
-  // stati per la gestione dei deck e cards con salvataggio tramite libreria localforage
-  // li prendo dal contesto
-  const decks = useDeckState();
-  const dispatchDecks = useDeckDispatch();
-  const cards = useCardState();
-  const dispatchCards = useCardDispatch();
+  // prendo decks, cards e dispatch dallo store
+  const decks = useSelector((state: RootState) => state.decks);
+  const cards = useSelector((state: RootState) => state.cards);
+  const dispatch = useDispatch<AppDispatch>();
 
-  // gestione con stato e handler per il modal che aggiunge un deck
+  // stato per il modale che aggiunge i deck
   const [deckName, setDeckName] = React.useState<string>('');
-  const handleAddDeck = () => {
-    if (deckName !== '') {
-        dispatchDecks({ type: 'ADD-DECK', payload: deckName });
-        handleModalDeck();
-    }
-  };
 
-  // gestione con stati e handlers per il modal che aggiunge le cards
+  // stati per il modale che aggiunge le cards
   const [cardQuestion, setCardQuestion] = React.useState<string>('');
   const [cardAnswer, setCardAnswer] = React.useState<string>('');
   const [deckForCards, setDeckForCards] = React.useState<number>(0);
-  const handleAddCard = () => {
-    if (cardQuestion !== '' && cardAnswer !== '' && deckForCards > 0) {
-      dispatchCards({ type: 'ADD-CARD', payload: { question: cardQuestion, 
-                    answer: cardAnswer,
-                    deckId: deckForCards  } });
-      // oltre ad aggiungere la card, aggiorno anche il deck 
-      dispatchDecks({ type: 'SYNC-CARDS', payload: cards });
-      handleModalCard();
-    }
-  };
 
 
   return (
@@ -61,17 +46,17 @@ const Home: React.FC = () => {
 
     {showModalDeck 
     ? <Modal handleModal = {handleModalDeck} 
-             dispatch = {dispatchDecks} 
              modalName='Add New Deck' 
              sonComponent={<InputFieldAction name={deckName} 
                           setName={setDeckName} 
-                          handleAction={handleAddDeck} 
+                          handleAction={() => {
+                            dispatch(addDeck(deckName));
+                            handleModalDeck(); }} 
                           actionName='Add deck'/> }/> 
     : null}
 
     {showModalCard
     ? <Modal handleModal = {handleModalCard} 
-             dispatch = {dispatchCards}
              modalName='Add a card to a deck'
              sonComponent={<AddCard cardQuestion={cardQuestion}
                           setCardQuestion={setCardQuestion}
@@ -80,7 +65,14 @@ const Home: React.FC = () => {
                           decks={decks}
                           setDeckForCards={setDeckForCards}
                           deckForCards={deckForCards}
-                          createCard={handleAddCard}
+                          createCard={() => {
+                            dispatch(addCard({
+                              question: cardQuestion,
+                              answer: cardAnswer,
+                              deckId: deckForCards
+                            }));
+                            handleModalCard();
+                          }}
                           />}/> 
     : null}
 
