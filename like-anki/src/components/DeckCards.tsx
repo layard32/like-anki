@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom';
 import ButtonAction from './ui/ButtonAction';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../state/store';
 import DeckModel from '../model/DeckModel';
@@ -10,7 +9,7 @@ import CardModel from '../model/CardModel';
 import Card from './Card';
 import CardList from './CardList';
 
-const DeckShow: React.FC= () => {
+const DeckCards: React.FC= () => {
     // utilizzo l'useParams hook per prendere il parametro della nested route
     const { deckId } = useParams<{ deckId: string }>();
 
@@ -66,4 +65,4 @@ const DeckShow: React.FC= () => {
     );
 };
 
-export default DeckShow;
+export default DeckCards;

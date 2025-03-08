@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import routes from './routes';
+import routes from './route/routes';
 // importo il provider (per collegamento tra redux e react)
 // e lo store stesso di redux
 import { store, persistor } from './state/store';

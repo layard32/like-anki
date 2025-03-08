@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../state/store';
 import { editDeck } from '../state/DecksSlice';
 import { removeDeckAndSync } from '../state/thunks';
-import { Menu, Item, Separator, Submenu, useContextMenu } from 'react-contexify';
+import { Menu, Item, useContextMenu } from 'react-contexify';
 import "react-contexify/dist/ReactContexify.css";
 
 interface Props {
@@ -36,7 +36,7 @@ const Deck: React.FC<Props> = ({ deck }: Props) => {
   // funzione per reindirizzare alla vista delle cards di un deck
   const navigate = useNavigate();
   const handleRedirectionToDeck = () => {
-    navigate(`/deck/${deck.id}`);
+    navigate(`/deck/${deck.id}/cards`);
   }
 
   // inizializziamo il context menu (libreria react-contexify)
