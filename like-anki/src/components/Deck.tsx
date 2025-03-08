@@ -33,12 +33,15 @@ const Deck: React.FC<Props> = ({ deck }: Props) => {
   // prendo la dispatch dallo store per fare edit e remove di deck
   const dispatch = useDispatch<AppDispatch>();
     	
-  // funzione per reindirizzare alla vista delle cards di un deck
+  // funzione per reindirizzare alla vista delle cards di un deck o della ripetizione
   const navigate = useNavigate();
-  const handleRedirectionToDeck = () => {
+  const handleRedirectionToDeckCards = () => {
     navigate(`/deck/${deck.id}/cards`);
   }
-
+  const handleRedirectionToDeckLearn = () => {
+    navigate(`/deck/${deck.id}/learn`);
+  }
+  
   // inizializziamo il context menu (libreria react-contexify)
   const { show } = useContextMenu({
     id: deck.id
@@ -47,11 +50,14 @@ const Deck: React.FC<Props> = ({ deck }: Props) => {
   return (
     <> 
       <Menu id={deck.id} animation='fade' theme='dark'>
-        <Item onClick={handleRedirectionToDeck}>See cards</Item>
+        <Item onClick={handleRedirectionToDeckCards}>See cards</Item>
         <Item onClick={handleEditable}>Edit deck name</Item>
       </Menu>
 
-      <div style={{cursor: 'pointer'}} className='card w-100 mb-3' onContextMenu={(e) => show({ event: e })}>
+      <div style={{cursor: 'pointer'}} 
+          className='card w-100 mb-3' 
+          onContextMenu={(e) => show({ event: e })}
+          onClick={handleRedirectionToDeckLearn}>
         <div className='card-body d-flex align-items-center justify-content-between'>
           <div style={{ maxWidth: '70%' }}> 
           {
@@ -81,7 +87,7 @@ const Deck: React.FC<Props> = ({ deck }: Props) => {
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item onClick={handleEditable}>Edit deck name</Dropdown.Item>
-                <Dropdown.Item onClick={handleRedirectionToDeck}>See cards</Dropdown.Item>
+                <Dropdown.Item onClick={handleRedirectionToDeckCards}>See cards</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </div>
