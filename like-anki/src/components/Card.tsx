@@ -9,6 +9,7 @@ import { AppDispatch, RootState } from '../state/store';
 import { editCard } from '../state/CardsSlice';
 import InputField from './ui/InputField';
 import ButtonAction from './ui/ButtonAction';
+import { motion, AnimatePresence } from "motion/react";
 
 interface Props {
     cardId: number;
@@ -38,46 +39,72 @@ const Card: React.FC<Props> = ({ cardId }: Props) => {
         }
     }, [card]);
 
+    // gestione dell'animazione per evitare che una nuova animazione parta prima che una deve finire
+    const [currentCardId, setCurrentCardId] = React.useState<number | null>(cardId);
+    React.useEffect(() => {
+        if (cardId !== currentCardId) {
+            setShowCard(false);
+        }
+    }, [cardId, currentCardId]);
+
+    const handleAnimationComplete = () => {
+        setCurrentCardId(cardId);
+        setShowCard(true);
+    };
+
     return (
-        showCard ?
-                <div className='card-container'>
-                <div className='card-content'>
-                    <div className='card-body'>
+        <AnimatePresence onExitComplete={handleAnimationComplete}>
+            {showCard && card && (
+                <motion.div
+                    className="card-container"
+                    layout
+                    key={card.id}
+                    style={{width: '100%'}}
+                    initial={{ opacity: 0, scale: 0 }}
+                    exit={{ opacity: 0, scale: 0 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{
+                        duration: 0.3,
+                        scale: { type: "spring", visualDuration: 0.1, bounce: 0.2 },
+                    }}>
+                    <div className='card-content'>
+                        <div className='card-body'>
+                            <div className='mb-2'> 
+                                <MdDelete className='text-danger' 
+                                        style={{ cursor: 'pointer', fontSize: '2rem' }} 
+                                        onClick={() => {
+                                            dispatch(removeCardAndSync(card.id));
+                                            setShowCard(false);
+                                        }}/>
+                                <CiEdit className='text-success'
+                                        style={{ cursor: 'pointer', fontSize: '2rem' }} 
+                                        onClick={handleEditable}/>
+                            </div>
 
-                        <div className='mb-2'> 
-                            <MdDelete className='text-danger' 
-                                    style={{ cursor: 'pointer', fontSize: '2rem' }} 
-                                    onClick={() => {
-                                        dispatch(removeCardAndSync(card.id));
-                                        setShowCard(false);}}/>
-                            <CiEdit className='text-success'
-                                    style={{ cursor: 'pointer', fontSize: '2rem' }} 
-                                    onClick={handleEditable}/>
+                            <div className='h3'> Status: {card.status} </div>
+                            <hr />
+
+                            <div className='h3'> Question </div>
+                            { editable ? 
+                                <InputField name={newQuestion} setName={setNewQuestion}/>
+                            :   <div className='h4'> {card.question} </div> }
+                            <hr />
+
+                            <div className='h3'> Answer </div>
+                            { editable ? 
+                                <InputField name={newAnswer} setName={setNewAnswer}/>
+                            :   <div className='h4'> {card.answer} </div> }
+
+                            { editable ? 
+                                <ButtonAction text='Save' onClickAction={() => {
+                                    dispatch(editCard({id: card.id, question: newQuestion, answer: newAnswer}));
+                                    handleEditable(); }}/>
+                                :   null}
                         </div>
-
-                        <div className='h3'> Status: {card.status} </div>
-                        <hr />
-
-                        <div className='h3'> Question </div>
-                        { editable ? 
-                            <InputField name={newQuestion} setName={setNewQuestion}/>
-                        :   <div className='h4'> {card.question} </div> }
-                        <hr />
-
-                        <div className='h3'> Answer </div>
-                        { editable ? 
-                            <InputField name={newAnswer} setName={setNewAnswer}/>
-                        :   <div className='h4'> {card.answer} </div> }
-
-                        { editable ? 
-                            <ButtonAction text='Save' onClickAction={() => {
-                                dispatch(editCard({id: card.id, question: newQuestion, answer: newAnswer}));
-                                handleEditable(); }}/>
-                            :   null}
                     </div>
-                </div>
-            </div>
-        : null
+                </motion.div>
+            )}
+        </AnimatePresence>
     )
 };
 

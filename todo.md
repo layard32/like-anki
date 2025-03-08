@@ -1,7 +1,4 @@
-* validazione per deck e card con lo stesso nome 
--- toast per creazione card/deck con successo o meno
-
-* animazione comparsa carta
+* validazione fatta: ora bisogna aggiungere toast (state.decks.errors)
 
 * pagina per ripetizione card 
 
