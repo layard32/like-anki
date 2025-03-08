@@ -17,7 +17,7 @@ interface Props {
 const Card: React.FC<Props> = ({ cardId }: Props) => {
     // utilizzo il dispatch per rimuovere ed editare la carta e prendo la carta dallo store
     const dispatch = useDispatch<AppDispatch>();
-    const card = useSelector((state: RootState) => state.cards.find((card) => card.id === cardId)) as CardModel;
+    const card = useSelector((state: RootState) => state.cards.cards.find((card) => card.id === cardId)) as CardModel;
     
     // stati per la modifica di una carta
     const [ editable, setEditable ] = React.useState<boolean>(false);

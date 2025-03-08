@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import DeckList from './components/DeckList';
 import Modal from './components/ui/Modal';
 import InputFieldAction from './components/ui/InputFieldAction';
@@ -23,7 +23,7 @@ const Home: React.FC = () => {
   };
 
   // prendo decks e dispatch dallo store
-  const decks = useSelector((state: RootState) => state.decks);
+  const decks = useSelector((state: RootState) => state.decks.decks);
   const dispatch = useDispatch<AppDispatch>();
 
   // stato per il modale che aggiunge i deck
@@ -33,7 +33,6 @@ const Home: React.FC = () => {
   const [cardQuestion, setCardQuestion] = React.useState<string>('');
   const [cardAnswer, setCardAnswer] = React.useState<string>('');
   const [deckForCards, setDeckForCards] = React.useState<number>(0);
-
 
   return (
     <>

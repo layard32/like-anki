@@ -21,7 +21,7 @@ const DeckShow: React.FC= () => {
     };
 
     // prendo l'insieme dei deck dallo store per applicare una semplice validazione sull'url
-    const decks = useSelector((state: RootState) => state.decks);
+    const decks = useSelector((state: RootState) => state.decks.decks);
     const deck = decks.find((deck: DeckModel) => deck.id === Number(deckId));
     useEffect(() => {
         if (!deck) handleRedirectionToHomePage();
@@ -35,7 +35,7 @@ const DeckShow: React.FC= () => {
     };
 
     // prendo l'insieme delle cards dallo store
-    const cards = useSelector((state: RootState) => state.cards);
+    const cards = useSelector((state: RootState) => state.cards.cards);
 
     return (
         deck ? (

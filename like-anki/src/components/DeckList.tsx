@@ -9,7 +9,7 @@ interface Props {
 
 const DeckList: React.FC<Props> = () => {
     // prendo i decks dallo store
-    const decks = useSelector((state: RootState) => state.decks);
+    const decks = useSelector((state: RootState) => state.decks.decks);
 
     return (
         <div className='mt-5 d-flex flex-column align-items-center no-wrap mx-auto' style={{ maxWidth: '35%', minWidth: '390px' }}>

@@ -2,46 +2,68 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import CardModel from "../model/CardModel";
 import DeckModel from "../model/DeckModel";
 
-const initialState: CardModel[] = [];
+// per gestire la validazione aggiungo un campo error allo stato
+// questo consente di gestire la validazione lato ui in modo più semplice
+interface CardsState {
+    cards: CardModel[];
+    error: string | null;
+}
+
+const initialState: CardsState = {
+    cards: [],
+    error: null,
+};
 
 const cardsSlice = createSlice({
     name: "cards",
     initialState,
     reducers: {
-        // possiamo scrivere codice mutabile perché redux lo rende immutabile
-        // (quindi non c'è bisogno di fare map)
-
         addCard: (state, action: PayloadAction<{question: string, answer: string, deckId: number}>) => {
+            // validazione
+            const { question, answer, deckId } = action.payload;
+            if (state.cards.some(card => card.question === question && card.answer === answer)) {
+                state.error = "Card with the same question and answer already exists.";
+                return;
+            }
+
             const newCard: CardModel = {
-                id: state.length > 0 ? state[state.length - 1].id + 1 : 1,
-                question: action.payload.question,
-                answer: action.payload.answer,
-                deckId: action.payload.deckId,
+                id: state.cards.length > 0 ? state.cards[state.cards.length - 1].id + 1 : 1,
+                question,
+                answer,
+                deckId,
                 status: 'new',
             };
-            state.push(newCard);
+            state.cards.push(newCard);
+            state.error = null;
         },
 
         removeCard: (state, action: PayloadAction<number>) => {
-            return state.filter((card) => card.id !== action.payload);
+            state.cards = state.cards.filter((card) => card.id !== action.payload);
+            state.error = null; 
         },
         
         editCard: (state, action: PayloadAction<{id: number, question: string, answer: string}>) => {
-            const card = state.find((card) => card.id === action.payload.id);
+            // validazione
+            const { id, question, answer } = action.payload;
+            if (state.cards.some(card => card.question === question && card.answer === answer && card.id !== id)) {
+                state.error = "Card with the same question and answer already exists.";
+                return;
+            }
+
+            const card = state.cards.find((card) => card.id === id);
             if (card) {
-                card.question = action.payload.question;
-                card.answer = action.payload.answer;
+                card.question = question;
+                card.answer = answer;
+                state.error = null; 
             }
         },
 
         syncDecks: (state, action: PayloadAction<DeckModel[]>) => {
-            // elimino le carte relative a deck non più esistenti
-            return state.filter((card) => action.payload.some((deck) => deck.id === card.deckId));
+            state.cards = state.cards.filter((card) => action.payload.some((deck) => deck.id === card.deckId));
+            state.error = null; 
         },
     },
 });
 
-
-// esporto reducer ed azioni
 export const { addCard, removeCard, syncDecks, editCard } = cardsSlice.actions;
 export default cardsSlice.reducer;
