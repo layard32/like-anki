@@ -21,7 +21,7 @@ const decksSlice = createSlice({
         addDeck: (state, action: PayloadAction<string>) => {
             // validazione deck
             const deckName = action.payload.trim();
-            if (deckName.length < 1 || deckName.length > 10) {
+            if (deckName.length < 1 || deckName.length > 20) {
                 state.error = "Deck name must be between 1 and 10 characters.";
                 return;
             }
@@ -49,8 +49,8 @@ const decksSlice = createSlice({
         editDeck: (state, action: PayloadAction<{ id: number, text: string }>) => {
             // validazione
             const deckName = action.payload.text.trim();
-            if (deckName.length < 1 || deckName.length > 10) {
-                state.error = "Deck name must be between 1 and 10 characters.";
+            if (deckName.length < 1 || deckName.length > 20) {
+                state.error = "Deck name must be between 1 and 20 characters.";
                 return;
             }
             if (state.decks.some(deck => deck.name === deckName && deck.id !== action.payload.id)) {

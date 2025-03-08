@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import InputFieldAdd from './ui/InputFieldAction';
 import DeckModel from '../model/DeckModel';
 import { MdDelete } from "react-icons/md";
@@ -26,6 +26,9 @@ const Deck: React.FC<Props> = ({ deck }: Props) => {
     if (editable) setEditable(false);
     else setEditable(true);
   }
+  useEffect(() => {
+    setNewText(deck.name);
+  }, [deck.name])
 
   // prendo la dispatch dallo store per fare edit e remove di deck
   const dispatch = useDispatch<AppDispatch>();
@@ -48,7 +51,7 @@ const Deck: React.FC<Props> = ({ deck }: Props) => {
         <Item onClick={handleEditable}>Edit deck name</Item>
       </Menu>
 
-      <div className='card w-100 mb-3' onContextMenu={(e) => show({ event: e })}>
+      <div style={{cursor: 'pointer'}} className='card w-100 mb-3' onContextMenu={(e) => show({ event: e })}>
         <div className='card-body d-flex align-items-center justify-content-between'>
           <div style={{ maxWidth: '70%' }}> 
           {
