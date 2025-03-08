@@ -47,6 +47,15 @@ const Deck: React.FC<Props> = ({ deck }: Props) => {
     id: deck.id
   });
 
+  // TODO: RIMUOVERE QUANDO SI CAMBIA DROPDOWN
+  const handleCardClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (e.target instanceof HTMLElement && (e.target.closest('.dropdown-toggle') || 
+        e.target.closest('.dropdown-menu') || e.target.closest('.CiEdit'))) {
+      return;
+    }
+    handleRedirectionToDeckLearn();
+  };
+
   return (
     <> 
       <Menu id={deck.id} animation='fade' theme='dark'>
@@ -57,7 +66,7 @@ const Deck: React.FC<Props> = ({ deck }: Props) => {
       <div style={{cursor: 'pointer'}} 
           className='card w-100 mb-3' 
           onContextMenu={(e) => show({ event: e })}
-          onClick={handleRedirectionToDeckLearn}>
+          onClick={handleCardClick}>
         <div className='card-body d-flex align-items-center justify-content-between'>
           <div style={{ maxWidth: '70%' }}> 
           {
@@ -80,14 +89,23 @@ const Deck: React.FC<Props> = ({ deck }: Props) => {
             <div className='h4 m-0 text-success'>{deck.completedCards}</div>
             <MdDelete className='text-danger' 
                       style={{ cursor: 'pointer', fontSize: '2rem' }} 
-                      onClick={() => dispatch(removeDeckAndSync(deck.id))} />
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        dispatch(removeDeckAndSync(deck.id))
+                      }} />
             <Dropdown>
-              <Dropdown.Toggle variant="secondary" size='sm'>
-                <CiEdit style={{ cursor: 'pointer', fontSize: '1.4rem' }} />
+            <Dropdown.Toggle variant="secondary" size='sm'>
+                <CiEdit style={{ cursor: 'pointer', fontSize: '1.4rem' }} onClick={(e) => e.stopPropagation()} />
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item onClick={handleEditable}>Edit deck name</Dropdown.Item>
-                <Dropdown.Item onClick={handleRedirectionToDeckCards}>See cards</Dropdown.Item>
+                <Dropdown.Item onClick={(e) => {
+                  e.stopPropagation();
+                  handleEditable();
+                }}>Edit deck name</Dropdown.Item>
+                <Dropdown.Item onClick={(e) => {
+                  e.stopPropagation();
+                  handleRedirectionToDeckCards();
+                }}>See cards</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </div>
@@ -96,5 +114,4 @@ const Deck: React.FC<Props> = ({ deck }: Props) => {
     </>
   );
 }
-
 export default Deck;
