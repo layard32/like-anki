@@ -71,13 +71,13 @@ const Deck: React.FC<Props> = ({ deck }: Props) => {
           <div style={{ maxWidth: '70%' }}> 
           {
             editable ?
-            <div className='w-100'> 
+            <div className='w-100' onClick={(e) => e.stopPropagation()}> 
               <InputFieldAdd name={newText} 
                             setName={setNewText} 
                             handleAction={() => {
                               dispatch(editDeck({ id: deck.id, text: newText }));
                               handleEditable();
-                            }} 
+                            }}
                             actionName='Modify'/>
             </div>
             : <div className='h4 m-0 text-wrap'>{deck.name}</div>

@@ -4,3 +4,4 @@
 
 - usata libreria react-contexify per menu contestuale
 - redux con redux-persist per gestione stati
+- react-router per routing

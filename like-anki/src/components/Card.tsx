@@ -9,36 +9,20 @@ import { AppDispatch, RootState } from '../state/store';
 import { editCard } from '../state/CardsSlice';
 import InputField from './ui/InputField';
 import ButtonAction from './ui/ButtonAction';
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, MotionAdvancedProps } from "motion/react";
 
 interface Props {
     cardId: number;
+    children: React.ReactNode;
 }
 
-const Card: React.FC<Props> = ({ cardId }: Props) => {
-    // utilizzo il dispatch per rimuovere ed editare la carta e prendo la carta dallo store
-    const dispatch = useDispatch<AppDispatch>();
+const Card: React.FC<Props> = ({ cardId, children }: Props) => {
+    // prendo la carta dallo store
     const card = useSelector((state: RootState) => state.cards.cards.find((card) => card.id === cardId)) as CardModel;
-    
-    // stati per la modifica di una carta
-    const [ editable, setEditable ] = React.useState<boolean>(false);
-    const [ newQuestion, setNewQuestion ] = React.useState<string>('question');
-    const [ newAnswer, setNewAnswer ] = React.useState<string>('answer');
-    const handleEditable = () => {
-        if (editable) setEditable(false);
-        else setEditable(true);
-    };
 
-    // utilizzo useeffect per il caso in cui la carta attualmente selezionata venga eliminata
+    // gestione scomparsa carta
     const [ showCard, setShowCard ] = React.useState<boolean>(true);
-    React.useEffect(() => {
-        if (!card) setShowCard(false);
-        else {
-            setNewQuestion(card.question);
-            setNewAnswer(card.answer);
-        }
-    }, [card]);
-
+    
     // gestione dell'animazione per evitare che una nuova animazione parta prima che una deve finire
     const [currentCardId, setCurrentCardId] = React.useState<number | null>(cardId);
     React.useEffect(() => {
@@ -54,58 +38,9 @@ const Card: React.FC<Props> = ({ cardId }: Props) => {
 
     return (
         <AnimatePresence onExitComplete={handleAnimationComplete}>
-            {showCard && card && (
-                <motion.div
-                    className="card-container"
-                    layout
-                    key={card.id}
-                    style={{width: '100%'}}
-                    initial={{ opacity: 0, scale: 0 }}
-                    exit={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{
-                        duration: 0.3,
-                        scale: { type: "spring", visualDuration: 0.1, bounce: 0.2 },
-                    }}>
-                    <div className='card-content'>
-                        <div className='card-body'>
-                            <div className='mb-2'> 
-                                <MdDelete className='text-danger' 
-                                        style={{ cursor: 'pointer', fontSize: '2rem' }} 
-                                        onClick={() => {
-                                            dispatch(removeCardAndSync(card.id));
-                                            setShowCard(false);
-                                        }}/>
-                                <CiEdit className='text-success'
-                                        style={{ cursor: 'pointer', fontSize: '2rem' }} 
-                                        onClick={handleEditable}/>
-                            </div>
-
-                            <div className='h3'> Status: {card.status} </div>
-                            <hr />
-
-                            <div className='h3'> Question </div>
-                            { editable ? 
-                                <InputField name={newQuestion} setName={setNewQuestion}/>
-                            :   <div className='h4'> {card.question} </div> }
-                            <hr />
-
-                            <div className='h3'> Answer </div>
-                            { editable ? 
-                                <InputField name={newAnswer} setName={setNewAnswer}/>
-                            :   <div className='h4'> {card.answer} </div> }
-
-                            { editable ? 
-                                <ButtonAction text='Save' onClickAction={() => {
-                                    dispatch(editCard({id: card.id, question: newQuestion, answer: newAnswer}));
-                                    handleEditable(); }}/>
-                                :   null}
-                        </div>
-                    </div>
-                </motion.div>
-            )}
+            {showCard && card && children}
         </AnimatePresence>
-    )
+    );
 };
 
 export default Card;

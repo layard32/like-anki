@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../state/store';
 import DeckModel from '../model/DeckModel';
 import CardModel from '../model/CardModel';
-import Card from './Card';
+import CardEdit from './CardEdit';
 import CardList from './CardList';
 
 const DeckCards: React.FC= () => {
@@ -19,12 +19,9 @@ const DeckCards: React.FC= () => {
         navigate('/');
     };
 
-    // prendo l'insieme dei deck dallo store per applicare una semplice validazione sull'url
+    // prendo l'insieme dei deck e il deck attuale
     const decks = useSelector((state: RootState) => state.decks.decks);
     const deck = decks.find((deck: DeckModel) => deck.id === Number(deckId));
-    useEffect(() => {
-        if (!deck) handleRedirectionToHomePage();
-    }, []);
 
     // click destro porta all'apertura della card nella parte destra
     // la carta viene passata anche a cardlist, affinché questa venga evidenziata
@@ -58,7 +55,7 @@ const DeckCards: React.FC= () => {
                 </div>
                 <div className='vr' style={{ minHeight: '100vh', minWidth: '4px', backgroundColor: 'black', opacity:'0.6' }}> </div>
                 { showedCard ? (
-                    <Card cardId={showedCard.id}/>
+                    <CardEdit cardId={showedCard.id}/>
                 ) : null }
             </div>
         ) : null
