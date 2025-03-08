@@ -11,7 +11,6 @@ import { editDeck } from '../state/DecksSlice';
 import { removeDeckAndSync } from '../state/thunks';
 import { Menu, Item, Separator, Submenu, useContextMenu } from 'react-contexify';
 import "react-contexify/dist/ReactContexify.css";
-import MENU_ID from '../const';
 
 interface Props {
   deck: DeckModel;
@@ -39,12 +38,12 @@ const Deck: React.FC<Props> = ({ deck }: Props) => {
 
   // inizializziamo il context menu (libreria react-contexify)
   const { show } = useContextMenu({
-    id: MENU_ID
+    id: deck.id
   });
 
   return (
     <> 
-      <Menu id={MENU_ID} animation='fade' theme='dark'>
+      <Menu id={deck.id} animation='fade' theme='dark'>
         <Item onClick={handleRedirectionToDeck}>See cards</Item>
         <Item onClick={handleEditable}>Edit deck name</Item>
       </Menu>
