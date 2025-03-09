@@ -10,7 +10,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 const App: React.FC = () => {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <div className="min-h-screen bg-background text-foreground">
+      <div>
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <Router>

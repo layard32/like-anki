@@ -8,6 +8,8 @@ import { RootState, AppDispatch } from "./state/store";
 import { addDeck } from "./state/DecksSlice";
 import { addCardAndSync } from "./state/thunks";
 import ButtonAction from "./components/ui/ButtonAction";
+import { ModeToggle } from "./components/mode-toggle";
+import "./index.css";
 
 const Home: React.FC = () => {
   // logica per entrambi i modali (sia aggiunta deck che card ad un deck)
@@ -36,7 +38,8 @@ const Home: React.FC = () => {
 
   return (
     <div>
-      <h1 className="text-center mt-3"> Like Anki </h1>
+      <ModeToggle />
+      <h1 className="text-center mt-3 text-3xl font-bold">Like Anki</h1>
 
       {showModalDeck ? (
         <Modal
@@ -84,7 +87,7 @@ const Home: React.FC = () => {
         />
       ) : null}
 
-      <div className="d-flex justify-content-center mt-5 gap-1">
+      <div className="flex justify-center mt-5 gap-4">
         <ButtonAction
           onClickAction={handleModalDeck}
           text={"Create new deck"}
