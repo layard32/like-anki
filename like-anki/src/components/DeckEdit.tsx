@@ -9,7 +9,7 @@ import CardModel from '../model/CardModel';
 import CardEdit from './CardEdit';
 import CardList from './CardList';
 
-const DeckCards: React.FC= () => {
+const DeckEdit: React.FC= () => {
     // utilizzo l'useParams hook per prendere il parametro della nested route
     const { deckId } = useParams<{ deckId: string }>();
 
@@ -55,11 +55,11 @@ const DeckCards: React.FC= () => {
                 </div>
                 <div className='vr' style={{ minHeight: '100vh', minWidth: '4px', backgroundColor: 'black', opacity:'0.6' }}> </div>
                 { showedCard ? (
-                    <CardEdit cardId={showedCard.id}/>
+                    <CardEdit cardId={showedCard.id} deckId={showedCard.deckId}/>
                 ) : null }
             </div>
         ) : null
     );
 };
 
-export default DeckCards;
+export default DeckEdit;

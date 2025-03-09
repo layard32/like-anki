@@ -21,13 +21,15 @@ const cardsSlice = createSlice({
         addCard: (state, action: PayloadAction<{question: string, answer: string, deckId: number}>) => {
             // validazione
             const { question, answer, deckId } = action.payload;
-            if (state.cards.some(card => card.question === question && card.answer === answer)) {
+            if (state.cards.some(card => card.question === question && card.answer === answer && card.deckId === deckId)) {
                 state.error = "Card with the same question and answer already exists.";
                 return;
             }
 
+            // l'id è incrementale rispetto le cards di un deck; perciò considero le cards di un deck
+            const deckCards = state.cards.filter((card) => card.deckId === deckId);
             const newCard: CardModel = {
-                id: state.cards.length > 0 ? state.cards[state.cards.length - 1].id + 1 : 1,
+                id: deckCards.length > 0 ? deckCards[deckCards.length - 1].id + 1 : 1,
                 question,
                 answer,
                 deckId,
@@ -37,20 +39,20 @@ const cardsSlice = createSlice({
             state.error = null;
         },
 
-        removeCard: (state, action: PayloadAction<number>) => {
-            state.cards = state.cards.filter((card) => card.id !== action.payload);
+        removeCard: (state, action: PayloadAction<{id: number, deckId: number}>) => {
+            state.cards = state.cards.filter((card) => !(card.id === action.payload.id && card.deckId === action.payload.deckId));
             state.error = null; 
         },
         
-        editCard: (state, action: PayloadAction<{id: number, question: string, answer: string}>) => {
+        editCard: (state, action: PayloadAction<{id: number, question: string, answer: string, deckId: number}>) => {
             // validazione
-            const { id, question, answer } = action.payload;
-            if (state.cards.some(card => card.question === question && card.answer === answer && card.id !== id)) {
+            const { id, deckId, question, answer } = action.payload;
+            if (state.cards.some(card => card.deckId === deckId && card.question === question && card.answer === answer && card.id !== id)) {
                 state.error = "Card with the same question and answer already exists.";
                 return;
             }
 
-            const card = state.cards.find((card) => card.id === id);
+            const card = state.cards.find((card) => card.id === id && card.deckId === deckId);
             if (card) {
                 card.question = question;
                 card.answer = answer;
@@ -62,8 +64,14 @@ const cardsSlice = createSlice({
             state.cards = state.cards.filter((card) => action.payload.some((deck) => deck.id === card.deckId));
             state.error = null; 
         },
+
+        updateStatusCard : (state, action: PayloadAction<{id: number, status: 'new' | 'completed' | 'learning', deckId: number}>) => {
+            const { id, status, deckId } = action.payload;
+            const card = state.cards.find((card) => card.id === id && card.deckId === deckId);
+            if (card) card.status = status;
+        }
     },
 });
 
-export const { addCard, removeCard, syncDecks, editCard } = cardsSlice.actions;
+export const { addCard, removeCard, syncDecks, editCard, updateStatusCard } = cardsSlice.actions;
 export default cardsSlice.reducer;

@@ -14,12 +14,13 @@ import Card from './Card';
 
 interface Props {
     cardId: number;
+    deckId: number;
 }
 
-const CardEdit: React.FC<Props> = ({ cardId }: Props) => {
+const CardEdit: React.FC<Props> = ({ cardId, deckId }: Props) => {
     // utilizzo il dispatch per rimuovere ed editare la carta e prendo la carta dallo store
     const dispatch = useDispatch<AppDispatch>();
-    const card = useSelector((state: RootState) => state.cards.cards.find((card) => card.id === cardId)) as CardModel;
+    const card = useSelector((state: RootState) => state.cards.cards.find((card) => card.id === cardId && card.deckId === deckId)) as CardModel;
 
     // stati per la modifica di una carta
     const [ editable, setEditable ] = React.useState<boolean>(false);
@@ -62,7 +63,7 @@ const CardEdit: React.FC<Props> = ({ cardId }: Props) => {
                             <MdDelete className='text-danger'
                                 style={{ cursor: 'pointer', fontSize: '2rem' }}
                                 onClick={() => {
-                                    dispatch(removeCardAndSync(card.id));
+                                    dispatch(removeCardAndSync({id: card.id, deckId: card.deckId}));
                                 }} />
                             <CiEdit className='text-success'
                                 style={{ cursor: 'pointer', fontSize: '2rem' }}
@@ -85,7 +86,7 @@ const CardEdit: React.FC<Props> = ({ cardId }: Props) => {
 
                         {editable ?
                             <ButtonAction text='Save' onClickAction={() => {
-                                dispatch(editCard({ id: card.id, question: newQuestion, answer: newAnswer }));
+                                dispatch(editCard({ id: card.id, question: newQuestion, answer: newAnswer, deckId: card.deckId }));
                                 handleEditable();
                             }} />
                             : null}

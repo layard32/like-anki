@@ -1,5 +1,5 @@
 import { AppDispatch, RootState } from './store';
-import { addCard, removeCard, syncDecks } from './CardsSlice';
+import { addCard, removeCard, syncDecks, updateStatusCard } from './CardsSlice';
 import { removeDeck, syncCards } from './DecksSlice';
 import CardModel from '../model/CardModel';
 
@@ -13,9 +13,9 @@ export const addCardAndSync = (card: Omit<CardModel, 'id' | 'status'>) => {
 };
 
 // rimozione carta -> sincronizzazione deck
-export const removeCardAndSync = (cardId: number) => {
+export const removeCardAndSync = ({id, deckId}: {id: number, deckId: number}) => {
     return (dispatch: AppDispatch, getState: () => RootState) => {
-        dispatch(removeCard(cardId));
+        dispatch(removeCard({id, deckId}));
         const state = getState();
         dispatch(syncCards(state.cards.cards));
     };
@@ -27,5 +27,14 @@ export const removeDeckAndSync = (deckId: number) => {
         dispatch(removeDeck(deckId));
         const state = getState();
         dispatch(syncDecks(state.decks.decks));
+    };
+};
+
+// aggiornamento carta -> sincronizzazione deck
+export const updateCardAndSync = ({id, status, deckId}: {id: number, status: 'new' | 'completed' | 'learning', deckId: number}) => {
+    return (dispatch: AppDispatch, getState: () => RootState) => {
+        dispatch(updateStatusCard({id, status, deckId}));
+        const state = getState();
+        dispatch(syncCards(state.cards.cards));
     };
 };

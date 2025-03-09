@@ -1,8 +1,7 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
 import Home from '../Home';
 import DeckLearn from '../components/DeckLearn';
-import DeckCards from '../components/DeckCards';
+import DeckEdit from '../components/DeckEdit';
 import RedirectHome from './RedirectHome';
 
 interface AppRoute {
@@ -18,7 +17,7 @@ const routes: AppRoute[] = [
     },
     {
         path: '/deck/:deckId/cards',
-        component: DeckCards,
+        component: DeckEdit,
     },
     {
         path: '/deck/:deckId/learn',
