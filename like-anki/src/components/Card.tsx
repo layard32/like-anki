@@ -1,46 +1,44 @@
-import React from 'react'
-import CardModel from '../model/CardModel';
-import '../style/CardStyle.css';
-import { MdDelete } from "react-icons/md";
-import { CiEdit } from "react-icons/ci";
-import { useDispatch, useSelector } from 'react-redux';
-import { removeCardAndSync } from '../state/thunks';
-import { AppDispatch, RootState } from '../state/store';
-import { editCard } from '../state/CardsSlice';
-import InputField from './ui/InputField';
-import ButtonAction from './ui/ButtonAction';
-import { motion, AnimatePresence, MotionAdvancedProps } from "motion/react";
+import React from "react";
+import CardModel from "../model/CardModel";
+import "../style/CardStyle.css";
+import { useSelector } from "react-redux";
+import { RootState } from "../state/store";
+import { AnimatePresence } from "motion/react";
 
 interface Props {
-    cardId: number;
-    children: React.ReactNode;
+  cardId: number;
+  children: React.ReactNode;
 }
 
 const Card: React.FC<Props> = ({ cardId, children }: Props) => {
-    // prendo la carta dallo store
-    const card = useSelector((state: RootState) => state.cards.cards.find((card) => card.id === cardId)) as CardModel;
+  // prendo la carta dallo store
+  const card = useSelector((state: RootState) =>
+    state.cards.cards.find((card) => card.id === cardId)
+  ) as CardModel;
 
-    // gestione scomparsa carta
-    const [ showCard, setShowCard ] = React.useState<boolean>(true);
-    
-    // gestione dell'animazione per evitare che una nuova animazione parta prima che una deve finire
-    const [currentCardId, setCurrentCardId] = React.useState<number | null>(cardId);
-    React.useEffect(() => {
-        if (cardId !== currentCardId) {
-            setShowCard(false);
-        }
-    }, [cardId, currentCardId]);
+  // gestione scomparsa carta
+  const [showCard, setShowCard] = React.useState<boolean>(true);
 
-    const handleAnimationComplete = () => {
-        setCurrentCardId(cardId);
-        setShowCard(true);
-    };
+  // gestione dell'animazione per evitare che una nuova animazione parta prima che una deve finire
+  const [currentCardId, setCurrentCardId] = React.useState<number | null>(
+    cardId
+  );
+  React.useEffect(() => {
+    if (cardId !== currentCardId) {
+      setShowCard(false);
+    }
+  }, [cardId, currentCardId]);
 
-    return (
-        <AnimatePresence onExitComplete={handleAnimationComplete}>
-            {showCard && card && children}
-        </AnimatePresence>
-    );
+  const handleAnimationComplete = () => {
+    setCurrentCardId(cardId);
+    setShowCard(true);
+  };
+
+  return (
+    <AnimatePresence onExitComplete={handleAnimationComplete}>
+      {showCard && card && children}
+    </AnimatePresence>
+  );
 };
 
 export default Card;

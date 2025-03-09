@@ -7,6 +7,7 @@ import { AppDispatch } from "../state/store";
 import { useNavigate } from "react-router-dom";
 import ButtonAction from "./ui/ButtonAction";
 import { motion } from "framer-motion";
+import "../style/CardLearnStyle.css";
 
 interface Props {
   cards: CardModel[];
@@ -22,8 +23,9 @@ const CardLearn: React.FC<Props> = ({ cards, deckId }: Props) => {
   const learningCards = cards.filter((card) => card.status === "learning");
   const newCards = cards.filter((card) => card.status === "new");
 
-  // tengo traccia della card attuale
+  // tengo traccia della card attuale e se la carta viene mostrata o meno
   const [currentCard, setCurrentCard] = React.useState<CardModel>(cards[0]);
+  const [showAnswer, setShowAnswer] = React.useState(false);
 
   // se ci sono new cards, le metto per prime; altrimenti metto le learning cards
   useEffect(() => {
@@ -32,6 +34,7 @@ const CardLearn: React.FC<Props> = ({ cards, deckId }: Props) => {
     } else {
       setCurrentCard(learningCards[0]);
     }
+    setShowAnswer(false);
   }, [cards]);
 
   const handleOkButton = () => {
@@ -70,17 +73,18 @@ const CardLearn: React.FC<Props> = ({ cards, deckId }: Props) => {
             className="card-container"
             layout
             key={currentCard.id}
-            style={{ width: "100%" }}
             initial={{ opacity: 0, scale: 0 }}
             exit={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
+            animate={{ opacity: 1, scale: 1, rotateY: showAnswer ? 0 : 180 }}
             transition={{
-              duration: 0.3,
+              duration: 0.7,
               scale: { type: "spring", visualDuration: 0.1, bounce: 0.2 },
             }}
           >
-            <div
+            <motion.div
               className="card-content"
+              transition={{ duration: 0.7 }}
+              animate={{ rotateY: showAnswer ? 0 : 180 }}
               style={{
                 backgroundColor:
                   currentCard.status === "new"
@@ -88,31 +92,50 @@ const CardLearn: React.FC<Props> = ({ cards, deckId }: Props) => {
                     : "rgba(255, 0, 0, 0.5)",
               }}
             >
-              <div className="card-body">
-                <div className="h3"> Question </div>
-                <div className="h4"> {currentCard.question} </div>
-                <hr />
-                <div className="h3"> Answer </div>
-                <div className="h4"> {currentCard.answer} </div>
-              </div>
-            </div>
+              <motion.div
+                transition={{ duration: 0.7 }}
+                animate={{ rotateY: showAnswer ? 0 : 180 }}
+                className="front"
+              >
+                {currentCard.answer}
+              </motion.div>
+              <motion.div
+                initial={{ rotateY: 180 }}
+                animate={{ rotateY: showAnswer ? 180 : 0 }}
+                transition={{ duration: 0.7 }}
+                className="back"
+              >
+                {currentCard.question}
+              </motion.div>
+            </motion.div>
           </motion.div>
         </Card>
       ) : null}
 
       <div className="mt-auto d-flex justify-content-center p-3">
-        <button
-          className="btn btn-primary me-3 btn-lg"
-          onClick={handleOkButton}
-        >
-          Ok
-        </button>
-        <button
-          className="btn btn-secondary btn-lg"
-          onClick={handleNotOkButton}
-        >
-          Not ok
-        </button>
+        {showAnswer ? (
+          <div>
+            <button
+              className="btn btn-primary me-3 btn-lg"
+              onClick={handleOkButton}
+            >
+              Ok
+            </button>
+            <button
+              className="btn btn-secondary btn-lg"
+              onClick={handleNotOkButton}
+            >
+              Not ok
+            </button>
+          </div>
+        ) : (
+          <button
+            className="btn btn-primary me-3 btn-lg"
+            onClick={() => setShowAnswer((prevState) => !prevState)}
+          >
+            Show answer
+          </button>
+        )}
       </div>
     </div>
   );
