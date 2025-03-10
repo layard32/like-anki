@@ -21,22 +21,25 @@ const Home: React.FC = () => {
       <h1 className="text-center text-5xl font-bold text-primary mt-9">
         Like Anki
       </h1>{" "}
-      <div className="flex justify-center mt-10 gap-4">
+      <div className="flex justify-center mt-12 gap-4">
         {" "}
         <Dialog>
           <DialogTrigger>
-            <Button size={"lg"}> Create a new deck </Button>
+            <Button size={"xlg"} className="text-lg">
+              {" "}
+              Create a new deck{" "}
+            </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Create a new deck</DialogTitle>
+              <DialogTitle> Create a new deck</DialogTitle>
             </DialogHeader>
             <CreateDeckDialog />
           </DialogContent>
         </Dialog>
         <Dialog>
           <DialogTrigger>
-            <Button size={"lg"} variant={"secondary"}>
+            <Button size={"xlg"} variant={"secondary"} className="text-lg">
               {" "}
               Add a new card to a deck{" "}
             </Button>
