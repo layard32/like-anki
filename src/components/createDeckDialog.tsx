@@ -1,4 +1,3 @@
-// filepath: /home/davide/github/like-anki/src/components/createDeckDialog.tsx
 import { z } from "zod";
 import React, { useRef } from "react";
 import { Button } from "./ui/button";
