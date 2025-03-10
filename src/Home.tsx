@@ -1,6 +1,5 @@
 import React from "react";
 import DeckList from "./components/DeckList";
-import AddCard from "./components/addCard";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "./state/store";
 import { addDeck } from "./state/DecksSlice";
@@ -16,6 +15,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "./components/ui/button";
 import CreateDeckDialog from "./components/createDeckDialog";
+import CreateCardDialog from "./components/createCardDialog";
 
 const Home: React.FC = () => {
   // logica per entrambi i modali (sia aggiunta deck che card ad un deck)
@@ -74,6 +74,7 @@ const Home: React.FC = () => {
             <DialogHeader>
               <DialogTitle>Create a new card</DialogTitle>
             </DialogHeader>
+            <CreateCardDialog />
           </DialogContent>
         </Dialog>
       </div>

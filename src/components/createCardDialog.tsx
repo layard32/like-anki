@@ -1,7 +1,7 @@
 import React from "react";
-import TextArea from "./ui/TextArea";
-import SelectFromOptions from "./ui/SelectFromOptions";
+import { Textarea } from "@/components/ui/textarea";
 import ButtonAction from "./ui/buttonAction";
+import { Select } from "./ui/select";
 import DeckModel from "../model/DeckModel";
 
 interface Props {
@@ -15,7 +15,7 @@ interface Props {
   createCard: () => void;
 }
 
-const AddCard: React.FC<Props> = ({
+const createCardDialog: React.FC<Props> = ({
   createCard,
   deckForCards,
   cardQuestion,
@@ -68,4 +68,4 @@ const AddCard: React.FC<Props> = ({
   );
 };
 
-export default AddCard;
+export default createCardDialog;
