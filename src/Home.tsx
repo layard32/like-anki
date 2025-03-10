@@ -1,5 +1,5 @@
 import React from "react";
-import DeckList from "./components/DeckList";
+import DeckList from "./components/deckList";
 import { ModeToggle } from "./components/mode-toggle";
 import {
   Dialog,

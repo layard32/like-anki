@@ -14,7 +14,7 @@ interface Props {
   deck: DeckModel;
 }
 
-const Deck: React.FC<Props> = ({ deck }: Props) => {
+const deck: React.FC<Props> = ({ deck }: Props) => {
   // gestione dell'edit con due stati:
   // uno stato per tenere conto se il deck è in modalità edit
   // uno stato per tenere traccia del testo inserito
@@ -133,4 +133,4 @@ const Deck: React.FC<Props> = ({ deck }: Props) => {
     </>
   );
 };
-export default Deck;
+export default deck;
