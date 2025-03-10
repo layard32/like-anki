@@ -7,8 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { removeCardAndSync } from "../state/thunks";
 import { AppDispatch, RootState } from "../state/store";
 import { editCard } from "../state/CardsSlice";
-import InputField from "./ui/InputField";
-import ButtonAction from "./ui/ButtonAction";
+import ButtonAction from "./ui/buttonAction";
 import { motion, AnimatePresence } from "motion/react";
 import Card from "./Card";
 

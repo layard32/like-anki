@@ -1,47 +1,83 @@
 import React from "react";
 import DeckList from "./components/DeckList";
-import Modal from "./components/ui/Modal";
-import InputFieldAction from "./components/ui/InputFieldAction";
-import AddCard from "./components/AddCard";
+import AddCard from "./components/addCard";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "./state/store";
 import { addDeck } from "./state/DecksSlice";
 import { addCardAndSync } from "./state/thunks";
-import ButtonAction from "./components/ui/ButtonAction";
+import ButtonAction from "./components/ui/buttonAction";
 import { ModeToggle } from "./components/mode-toggle";
-import "./index.css";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "./components/ui/button";
+import CreateDeckDialog from "./components/createDeckDialog";
 
 const Home: React.FC = () => {
   // logica per entrambi i modali (sia aggiunta deck che card ad un deck)
-  const [showModalDeck, setShowModalDeck] = React.useState<boolean>(false);
-  const [showModalCard, setShowModalCard] = React.useState<boolean>(false);
-  const handleModalDeck = () => {
-    if (!showModalDeck && !showModalCard) setShowModalDeck(true);
-    else setShowModalDeck(false);
-  };
-  const handleModalCard = () => {
-    if (!showModalCard && !showModalDeck) setShowModalCard(true);
-    else setShowModalCard(false);
-  };
+  // const [showModalDeck, setShowModalDeck] = React.useState<boolean>(false);
+  // const [showModalCard, setShowModalCard] = React.useState<boolean>(false);
+  // const handleModalDeck = () => {
+  //   if (!showModalDeck && !showModalCard) setShowModalDeck(true);
+  //   else setShowModalDeck(false);
+  // };
+  // const handleModalCard = () => {
+  //   if (!showModalCard && !showModalDeck) setShowModalCard(true);
+  //   else setShowModalCard(false);
+  // };
 
   // prendo decks e dispatch dallo store
-  const decks = useSelector((state: RootState) => state.decks.decks);
-  const dispatch = useDispatch<AppDispatch>();
+  // const decks = useSelector((state: RootState) => state.decks.decks);
+  // const dispatch = useDispatch<AppDispatch>();
 
-  // stato per il modale che aggiunge i deck
-  const [deckName, setDeckName] = React.useState<string>("");
+  // // stato per il modale che aggiunge i deck
+  // const [deckName, setDeckName] = React.useState<string>("");
 
-  // stati per il modale che aggiunge le cards
-  const [cardQuestion, setCardQuestion] = React.useState<string>("");
-  const [cardAnswer, setCardAnswer] = React.useState<string>("");
-  const [deckForCards, setDeckForCards] = React.useState<number>(0);
+  // // stati per il modale che aggiunge le cards
+  // const [cardQuestion, setCardQuestion] = React.useState<string>("");
+  // const [cardAnswer, setCardAnswer] = React.useState<string>("");
+  // const [deckForCards, setDeckForCards] = React.useState<number>(0);
 
   return (
     <div>
-      <ModeToggle />
-      <h1 className="text-center mt-3 text-3xl font-bold">Like Anki</h1>
-
-      {showModalDeck ? (
+      <div className="fixed top-10 left-3">
+        <ModeToggle />
+      </div>
+      <h1 className="text-center text-5xl font-bold text-primary mt-9">
+        Like Anki
+      </h1>{" "}
+      <div className="flex justify-center mt-10 gap-4">
+        {" "}
+        <Dialog>
+          <DialogTrigger>
+            <Button size={"lg"}> Create a new deck </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Create a new deck</DialogTitle>
+            </DialogHeader>
+            <CreateDeckDialog />
+          </DialogContent>
+        </Dialog>
+        <Dialog>
+          <DialogTrigger>
+            <Button size={"lg"} variant={"secondary"}>
+              {" "}
+              Add a new card to a deck{" "}
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Create a new card</DialogTitle>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
+      </div>
+      {/* {showModalDeck ? (
         <Modal
           handleModal={handleModalDeck}
           modalName="Add New Deck"
@@ -89,15 +125,10 @@ const Home: React.FC = () => {
 
       <div className="flex justify-center mt-5 gap-4">
         <ButtonAction
-          onClickAction={handleModalDeck}
-          text={"Create new deck"}
-        />
-        <ButtonAction
           onClickAction={handleModalCard}
           text={"Add card to a deck"}
         />
-      </div>
-
+      </div> */}
       <DeckList />
     </div>
   );

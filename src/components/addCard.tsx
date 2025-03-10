@@ -1,7 +1,7 @@
 import React from "react";
 import TextArea from "./ui/TextArea";
 import SelectFromOptions from "./ui/SelectFromOptions";
-import ButtonAction from "./ui/ButtonAction";
+import ButtonAction from "./ui/buttonAction";
 import DeckModel from "../model/DeckModel";
 
 interface Props {
