@@ -85,7 +85,7 @@ const CardLearn: React.FC<Props> = ({ cards, deckId }: Props) => {
         </Button>
       </div>
 
-      <div className="flex items-center justify-center min-h-[calc(100vh-15rem)]">
+      <div className="flex items-center justify-center min-h-[calc(100vh-15rem)] ">
         <div className="flex flex-col items-center justify-center">
           {currentCard ? (
             <Card cardId={currentCard.id}>
@@ -148,6 +148,7 @@ const CardLearn: React.FC<Props> = ({ cards, deckId }: Props) => {
                 <Button
                   size={"lg"}
                   variant={"default"}
+                  onClick={handle}
                   className="text-[min(5vw,1.26rem)]"
                 >
                   {" "}
