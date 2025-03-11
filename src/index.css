@@ -71,11 +71,11 @@
   --popover-foreground: var(--card-foreground);
 
   /* Primary – now a darker blue that pops against dark surfaces */
-  --primary: oklch(0.55 0.15 240); /* Darker blue */
+  --primary: oklch(0.65 0.15 240); /* Lighter blue */
   --primary-foreground: oklch(0.98 0 0); /* White text */
 
   /* Secondary */
-  --secondary: oklch(0.45 0.33 217.2);
+  --secondary: oklch(0.25 0.40 217.2);
   --secondary-foreground: var(--foreground);
 
   /* Muted & Accent */

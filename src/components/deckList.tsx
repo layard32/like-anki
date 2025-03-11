@@ -11,24 +11,25 @@ const deckList: React.FC<Props> = () => {
   const decks = useSelector((state: RootState) => state.decks.decks);
 
   return (
-    <div
-      className="mt-2 flex flex-col items-center mx-auto w-full"
-      style={{ maxWidth: "90%", minWidth: "390px" }}
-    >
+    <div className="flex flex-col mx-auto w-[min(85vw,800px)]">
       <div className="w-full my-12">
-        <div className="flex justify-between items-center">
-          <span className="text-2xl font-bold">Name </span>
-          <div className="flex gap-3">
-            <span className="text-2xl font-bold text-primary">New</span>
-            <span className="text-2xl font-bold text-destructive">
+        <div className="flex justify-between items-center flex-wrap">
+          <span className="text-[min(5vw,1.5rem)] font-bold mr-3">Name </span>
+          <div className="flex gap-4">
+            <span className="text-[min(5vw,1.5rem)] font-bold text-primary">
+              New
+            </span>
+            <span className="text-[min(5vw,1.5rem)] font-bold text-destructive">
               Learning
             </span>
-            <span className="text-2xl font-bold text-chart-2">Completed</span>
+            <span className="text-[min(5vw,1.5rem)] font-bold text-chart-2">
+              Completed
+            </span>
           </div>
         </div>
       </div>
 
-      <div className="space-y-6 w-full">
+      <div className="space-y-6 w-[98%] mx-auto">
         <AnimatePresence>
           {decks.map((deck) => (
             <motion.div

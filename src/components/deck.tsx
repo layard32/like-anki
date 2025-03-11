@@ -1,6 +1,7 @@
 import React from "react";
 import DeckModel from "../model/DeckModel";
 import { MdDelete } from "react-icons/md";
+import { CiEdit } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../state/store";
@@ -22,6 +23,14 @@ import {
 } from "./ui/form";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface Props {
   deck: DeckModel;
@@ -72,7 +81,10 @@ const Deck: React.FC<Props> = ({ deck }: Props) => {
       </Menu>
 
       <div
-        className="bg-secondary p-4 rounded-lg shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4 cursor-pointer w-full"
+        className="bg-secondary p-4 rounded-lg shadow-lg flex flex-row items-center
+        h-[min(24vw,5.4rem)]
+        justify-between gap-4 cursor-pointer w-full 
+        dark:shadow-[0_4px_6px_-1px_rgba(255,255,255,0.1),0_2px_4px_-1px_rgba(255,255,255,0.1)]"
         onContextMenu={(e) => show({ event: e })}
         onClick={handleRedirectionToDeckLearn}
       >
@@ -103,20 +115,62 @@ const Deck: React.FC<Props> = ({ deck }: Props) => {
               </Form>
             </div>
           ) : (
-            <div className="text-3xl font-bold mb-2 w-full">{deck.name}</div>
+            <div className="text-[min(5vw,1.6rem)] font-bold w-full">
+              {deck.name}
+            </div>
           )}
         </div>
-        <div className="flex gap-4">
-          <div className="text-primary">{deck.newCards}</div>
-          <div className="text-destructive">{deck.learningCards}</div>
-          <div className="text-chart-2">{deck.completedCards}</div>
-          <MdDelete
-            className="text-2xl text-primary"
-            onClick={(e) => {
-              e.stopPropagation();
-              dispatch(removeDeckAndSync(deck.id));
-            }}
-          />
+        <div
+          className="flex items-center justify-center 
+        gap-3 flex-wrap
+        sm:flex-nowrap sm:gap-5"
+        >
+          <div className="text-[min(5vw,1.5rem)] font-bold text-primary">
+            {deck.newCards}
+          </div>
+          <div className="text-[min(5vw,1.5rem)] font-bold text-destructive">
+            {deck.learningCards}
+          </div>
+          <div className="text-[min(5vw,1.5rem)] font-bold text-chart-2">
+            {deck.completedCards}
+          </div>
+          <div
+            className="flex gap-2
+          flex-row
+          sm:flex-col sm:mx-2 sm:ml-15"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <MdDelete
+              className="text-[min(6vw,1.7rem)] text-primary dark:text-foreground"
+              onClick={() => {
+                dispatch(removeDeckAndSync(deck.id));
+              }}
+            />
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <CiEdit
+                  onClick={() => {
+                    dispatch(removeDeckAndSync(deck.id));
+                  }}
+                  className="text-[min(6vw,1.7rem)] text-primary cursor-pointer dark:text-foreground"
+                />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem
+                  className="text-base"
+                  onClick={handleRedirectionToDeckCards}
+                >
+                  See cards
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="text-base"
+                  onClick={() => setEditable((prevState) => !prevState)}
+                >
+                  Edit deck name
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
       </div>
     </>
