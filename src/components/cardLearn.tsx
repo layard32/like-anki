@@ -148,7 +148,7 @@ const CardLearn: React.FC<Props> = ({ cards, deckId }: Props) => {
                 <Button
                   size={"lg"}
                   variant={"default"}
-                  onClick={handle}
+                  onClick={handleOkButton}
                   className="text-[min(5vw,1.26rem)]"
                 >
                   {" "}
