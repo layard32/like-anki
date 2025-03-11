@@ -80,8 +80,7 @@ const CardLearn: React.FC<Props> = ({ cards, deckId }: Props) => {
           value=""
           className="text-[min(5vw,1.26rem)]"
         >
-          {" "}
-          Go back to the homepage{" "}
+          Go back to the homepage
         </Button>
       </div>
 
@@ -89,8 +88,14 @@ const CardLearn: React.FC<Props> = ({ cards, deckId }: Props) => {
         <div className="flex flex-col items-center justify-center">
           {currentCard ? (
             <Card cardId={currentCard.id}>
+              {/* Contenitore principale con dimensioni fisse/minime, prospettiva 3D */}
               <motion.div
-                className="w-fit max-w-[min(550px,57vw)] items-center mx-auto"
+                className="relative mx-auto"
+                style={{
+                  width: "min(550px, 57vw)",
+                  minHeight: "250px", // <--- regola se serve più spazio verticale
+                  perspective: "1000px",
+                }}
                 layout
                 key={currentCard.id}
                 initial={{ opacity: 0, scale: 0 }}
@@ -98,42 +103,56 @@ const CardLearn: React.FC<Props> = ({ cards, deckId }: Props) => {
                 animate={{
                   opacity: 1,
                   scale: 1,
-                  rotateY: showAnswer ? 0 : 180,
                 }}
                 transition={{
                   duration: 0.7,
                   scale: { type: "spring", visualDuration: 0.1, bounce: 0.2 },
                 }}
               >
-                <div
-                  className={`rounded-lg shadow-md px-8 py-14 text-[min(5vw,1.26rem)] font-bold break-words w-full ${
-                    currentCard.status === "new" ? "bg-blue-400" : "bg-red-500"
-                  }`}
+                {/* Wrapper interno con transformStyle 3D: ruotiamo l'intero blocco */}
+                <motion.div
+                  style={{ transformStyle: "preserve-3d" }}
+                  animate={{ rotateY: showAnswer ? 180 : 0 }}
+                  transition={{ duration: 0.7 }}
+                  className="relative w-full h-full"
                 >
-                  <motion.div
-                    className="card-content"
-                    transition={{ duration: 0.7 }}
-                    animate={{ rotateY: showAnswer ? 0 : 180 }}
+                  {/* Lato frontale (question) */}
+                  <div
+                    className={`absolute inset-0 rounded-lg shadow-md px-8 py-14 text-[min(5vw,1.26rem)] font-bold 
+                      whitespace-normal break-all flex items-center justify-center text-center
+                      ${
+                        currentCard.status === "new"
+                          ? "bg-blue-400"
+                          : "bg-red-500"
+                      }
+                    `}
+                    style={{
+                      backfaceVisibility: "hidden",
+                      overflow: "hidden",
+                    }}
                   >
-                    <div className="relative w-full h-full">
-                      <motion.div
-                        transition={{ duration: 0.7 }}
-                        animate={{ rotateY: showAnswer ? 0 : 180 }}
-                        className="backface-hidden absolute inset-0 flex items-center justify-center transition-opacity duration-700"
-                      >
-                        {currentCard.answer}
-                      </motion.div>
-                      <motion.div
-                        initial={{ rotateY: 180 }}
-                        animate={{ rotateY: showAnswer ? 180 : 0 }}
-                        transition={{ duration: 0.7 }}
-                        className="backface-hidden absolute inset-0 flex items-center justify-center transition-opacity duration-700"
-                      >
-                        {currentCard.question}
-                      </motion.div>
-                    </div>
-                  </motion.div>
-                </div>
+                    {currentCard.question}
+                  </div>
+
+                  {/* Lato posteriore (answer) */}
+                  <div
+                    className={`absolute inset-0 rounded-lg shadow-md px-8 py-14 text-[min(5vw,1.26rem)] font-bold 
+                      whitespace-normal break-all flex items-center justify-center text-center
+                      ${
+                        currentCard.status === "new"
+                          ? "bg-blue-400"
+                          : "bg-red-500"
+                      }
+                    `}
+                    style={{
+                      transform: "rotateY(180deg)",
+                      backfaceVisibility: "hidden",
+                      overflow: "hidden",
+                    }}
+                  >
+                    {currentCard.answer}
+                  </div>
+                </motion.div>
               </motion.div>
             </Card>
           ) : null}
@@ -145,8 +164,8 @@ const CardLearn: React.FC<Props> = ({ cards, deckId }: Props) => {
                   size={"lg"}
                   variant={"default"}
                   className="text-[min(5vw,1.26rem)]"
+                  onClick={handleOkButton}
                 >
-                  {" "}
                   Ok
                 </Button>
                 <Button
@@ -160,7 +179,7 @@ const CardLearn: React.FC<Props> = ({ cards, deckId }: Props) => {
               </div>
             ) : (
               <Button
-                className="text-[min(5vw,1.26rem)]"
+                className={"text-[min(5vw,1.26rem)]"}
                 onClick={() => setShowAnswer((prevState) => !prevState)}
               >
                 Show answer
