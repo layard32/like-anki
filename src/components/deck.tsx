@@ -13,22 +13,13 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { deckSchema } from "../state/deckValidation";
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-} from "./ui/form";
+import { Form, FormField, FormItem, FormControl, FormMessage } from "./ui/form";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
@@ -40,8 +31,9 @@ const Deck: React.FC<Props> = ({ deck }: Props) => {
   // inizializzo dispatch e stato editable
   const dispatch = useDispatch<AppDispatch>();
   const [editable, setEditable] = React.useState<boolean>(false);
-  const form = useForm<z.infer<typeof deckSchema>>({
-    resolver: zodResolver(deckSchema),
+  const form = useForm<z.infer<ReturnType<typeof deckSchema>>>({
+    // passiamo il deck.id per evitare che la funzione edit non consenta di tenere lo stesso nome
+    resolver: zodResolver(deckSchema(deck.id)),
     defaultValues: {
       deckName: deck.name,
     },
@@ -64,7 +56,7 @@ const Deck: React.FC<Props> = ({ deck }: Props) => {
   });
 
   // gestione submit del form
-  function onSubmit(values: z.infer<typeof deckSchema>) {
+  function onSubmit(values: z.infer<ReturnType<typeof deckSchema>>) {
     dispatch(editDeck({ id: deck.id, text: values.deckName }));
     setEditable(false);
   }
@@ -88,19 +80,25 @@ const Deck: React.FC<Props> = ({ deck }: Props) => {
         onContextMenu={(e) => show({ event: e })}
         onClick={handleRedirectionToDeckLearn}
       >
-        <div className="flex flex-col w-full">
+        <div className="w-99">
           {editable ? (
             <div onClick={(e) => e.stopPropagation()}>
               <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)}>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="flex items-center gap-2"
+                >
                   <FormField
                     control={form.control}
                     name="deckName"
                     render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Deck Name</FormLabel>
+                      <FormItem className="flex-grow">
                         <FormControl>
-                          <Input placeholder="Type deck name" {...field} />
+                          <Input
+                            className="bg-primary h-[2.6rem] md:text-lg sm:text-base lg:text-xl"
+                            placeholder="Type deck name"
+                            {...field}
+                          />
                         </FormControl>
                         {errors.deckName && (
                           <FormMessage className="text-red-500">
@@ -110,7 +108,9 @@ const Deck: React.FC<Props> = ({ deck }: Props) => {
                       </FormItem>
                     )}
                   />
-                  <Button type="submit">Modify</Button>
+                  <Button className="h-[2.6rem]" type="submit">
+                    Modify
+                  </Button>
                 </form>
               </Form>
             </div>
