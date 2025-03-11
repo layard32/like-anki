@@ -22,8 +22,9 @@ interface Props {}
 
 const createDeckDialog: React.FC<Props> = ({}: Props) => {
   // importo lo schema di validazione usando zod
-  const form = useForm<z.infer<typeof deckSchema>>({
-    resolver: zodResolver(deckSchema),
+  const form = useForm<z.infer<ReturnType<typeof deckSchema>>>({
+    // assegno, in maniera temporanea, l'id -1, affinché non parta la validazione per l'edit
+    resolver: zodResolver(deckSchema(-1)),
     defaultValues: {
       deckName: "",
     },
@@ -33,7 +34,7 @@ const createDeckDialog: React.FC<Props> = ({}: Props) => {
   const dispatch = useDispatch<AppDispatch>();
   const dialogCloseRef = useRef<HTMLButtonElement>(null);
 
-  function onSubmit(values: z.infer<typeof deckSchema>) {
+  function onSubmit(values: z.infer<ReturnType<typeof deckSchema>>) {
     dispatch(addDeck(values.deckName));
     if (dialogCloseRef.current) {
       dialogCloseRef.current.click();

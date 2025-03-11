@@ -5,7 +5,7 @@ import { updateCardAndSync } from "../state/thunks";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../state/store";
 import { useNavigate } from "react-router-dom";
-import ButtonAction from "./ui/buttonAction";
+import { Button } from "./ui/button";
 import { motion } from "framer-motion";
 import { ModeToggle } from "./mode-toggle";
 
@@ -75,19 +75,22 @@ const CardLearn: React.FC<Props> = ({ cards, deckId }: Props) => {
       </div>
 
       <div className="text-center mt-12 w-full">
-        <ButtonAction
-          onClickAction={handleRedirectionToHomePage}
-          text="Go back to the homepage"
+        <Button
+          onClick={handleRedirectionToHomePage}
+          value=""
           className="text-[min(5vw,1.26rem)]"
-        />{" "}
+        >
+          {" "}
+          Go back to the homepage{" "}
+        </Button>
       </div>
 
-      <div className="flex items-center justify-center h-screen">
+      <div className="flex items-center justify-center min-h-[calc(100vh-15rem)]">
         <div className="flex flex-col items-center justify-center">
           {currentCard ? (
             <Card cardId={currentCard.id}>
               <motion.div
-                className="lg:ml-25 ml-3 w-[min(550px,57vw)]"
+                className="w-[min(550px,57vw)] items-center mx-auto"
                 layout
                 key={currentCard.id}
                 initial={{ opacity: 0, scale: 0 }}
@@ -103,8 +106,8 @@ const CardLearn: React.FC<Props> = ({ cards, deckId }: Props) => {
                 }}
               >
                 <div
-                  className={`rounded-lg shadow-md p-4 ${
-                    currentCard.status === "new" ? "bg-blue-500" : "bg-red-500"
+                  className={`rounded-lg shadow-md p-14 text-[min(5vw,1.26rem)] font-bold break-words w-full ${
+                    currentCard.status === "new" ? "bg-blue-400" : "bg-red-500"
                   }`}
                 >
                   <motion.div
@@ -112,38 +115,60 @@ const CardLearn: React.FC<Props> = ({ cards, deckId }: Props) => {
                     transition={{ duration: 0.7 }}
                     animate={{ rotateY: showAnswer ? 0 : 180 }}
                   >
-                    <motion.div
-                      transition={{ duration: 0.7 }}
-                      animate={{ rotateY: showAnswer ? 0 : 180 }}
-                      className="backface-hidden"
-                    >
-                      {currentCard.answer}
-                    </motion.div>
-                    <motion.div
-                      initial={{ rotateY: 180 }}
-                      animate={{ rotateY: showAnswer ? 180 : 0 }}
-                      transition={{ duration: 0.7 }}
-                      className="backface-hidden"
-                    >
-                      {currentCard.question}
-                    </motion.div>
+                    <div className="relative w-full h-full">
+                      <motion.div
+                        transition={{ duration: 0.7 }}
+                        animate={{ rotateY: showAnswer ? 0 : 180 }}
+                        className={
+                          "backface-hidden absolute inset-0 flex items-center justify-center transition-opacity duration-700"
+                        }
+                      >
+                        {currentCard.answer}
+                      </motion.div>
+                      <motion.div
+                        initial={{ rotateY: 180 }}
+                        animate={{ rotateY: showAnswer ? 180 : 0 }}
+                        transition={{ duration: 0.7 }}
+                        className={
+                          "backface-hidden absolute inset-0 flex items-center justify-center transition-opacity duration-700"
+                        }
+                      >
+                        {currentCard.question}
+                      </motion.div>
+                    </div>
                   </motion.div>
                 </div>
               </motion.div>
             </Card>
           ) : null}
 
-          <div className="mt-4 flex flex-row p-3">
+          <div className="flex justify-center mt-10">
             {showAnswer ? (
-              <>
-                <ButtonAction onClickAction={handleOkButton} text="Ok" />
-                <ButtonAction onClickAction={handleNotOkButton} text="Not ok" />
-              </>
+              <div className="flex space-x-4">
+                <Button
+                  size={"lg"}
+                  variant={"default"}
+                  className="text-[min(5vw,1.26rem)]"
+                >
+                  {" "}
+                  Ok
+                </Button>
+                <Button
+                  variant={"secondary"}
+                  onClick={handleNotOkButton}
+                  className="text-[min(5vw,1.26rem)]"
+                  size={"lg"}
+                >
+                  Not ok
+                </Button>
+              </div>
             ) : (
-              <ButtonAction
-                onClickAction={() => setShowAnswer((prevState) => !prevState)}
-                text="Show answer"
-              />
+              <Button
+                className={"text-[min(5vw,1.26rem)]"}
+                onClick={() => setShowAnswer((prevState) => !prevState)}
+              >
+                Show answer
+              </Button>
             )}
           </div>
         </div>

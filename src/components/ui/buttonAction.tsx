@@ -7,6 +7,15 @@ interface Props {
   Icon?: IconType;
   onClickAction: () => void;
   className?: string;
+  variant?:
+    | "default"
+    | "link"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | null
+    | undefined;
 }
 
 const ButtonAction: React.FC<Props> = ({
@@ -14,10 +23,11 @@ const ButtonAction: React.FC<Props> = ({
   Icon,
   onClickAction,
   className,
+  variant,
 }: Props) => {
   return (
     <div>
-      <Button onClick={onClickAction} className={className}>
+      <Button onClick={onClickAction} className={className} variant={variant}>
         {text ? text : null}
         {Icon ? <Icon /> : null}
       </Button>
