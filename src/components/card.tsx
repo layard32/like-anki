@@ -1,6 +1,5 @@
 import React from "react";
 import CardModel from "../model/CardModel";
-import "../style/CardStyle.css";
 import { useSelector } from "react-redux";
 import { RootState } from "../state/store";
 import { AnimatePresence } from "motion/react";

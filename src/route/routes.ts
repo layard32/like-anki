@@ -1,7 +1,7 @@
 import React from 'react';
 import Home from '../Home';
-import DeckLearn from '../components/DeckLearn';
-import DeckEdit from '../components/DeckEdit';
+import DeckLearn from '../components/deckLearn';
+import DeckEdit from '../components/deckEdit';
 import RedirectHome from './RedirectHome';
 
 interface AppRoute {

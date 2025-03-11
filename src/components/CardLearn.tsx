@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Card from "./Card";
+import Card from "./card";
 import CardModel from "../model/CardModel";
 import { updateCardAndSync } from "../state/thunks";
 import { useDispatch } from "react-redux";
@@ -7,7 +7,6 @@ import { AppDispatch } from "../state/store";
 import { useNavigate } from "react-router-dom";
 import ButtonAction from "./ui/buttonAction";
 import { motion } from "framer-motion";
-import "../style/CardLearnStyle.css";
 
 interface Props {
   cards: CardModel[];
