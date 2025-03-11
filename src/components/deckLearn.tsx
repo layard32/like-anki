@@ -5,7 +5,7 @@ import { RootState } from "../state/store";
 import DeckModel from "../model/DeckModel";
 import { useEffect } from "react";
 import CardModel from "../model/CardModel";
-import CardLearn from "./CardLearn";
+import CardLearn from "./cardLearn";
 
 const DeckLearn: React.FC = () => {
   const { deckId } = useParams<{ deckId: string }>();
