@@ -85,12 +85,12 @@ const CardLearn: React.FC<Props> = ({ cards, deckId }: Props) => {
         </Button>
       </div>
 
-      <div className="flex items-center justify-center min-h-[calc(100vh-15rem)] ">
+      <div className="flex items-center justify-center min-h-[calc(100vh-15rem)]">
         <div className="flex flex-col items-center justify-center">
           {currentCard ? (
             <Card cardId={currentCard.id}>
               <motion.div
-                className="w-[min(550px,57vw)] items-center mx-auto"
+                className="w-fit max-w-[min(550px,57vw)] items-center mx-auto"
                 layout
                 key={currentCard.id}
                 initial={{ opacity: 0, scale: 0 }}
@@ -106,7 +106,7 @@ const CardLearn: React.FC<Props> = ({ cards, deckId }: Props) => {
                 }}
               >
                 <div
-                  className={`rounded-lg shadow-md p-14 text-[min(5vw,1.26rem)] font-bold break-words w-full ${
+                  className={`rounded-lg shadow-md px-8 py-14 text-[min(5vw,1.26rem)] font-bold break-words w-full ${
                     currentCard.status === "new" ? "bg-blue-400" : "bg-red-500"
                   }`}
                 >
@@ -119,9 +119,7 @@ const CardLearn: React.FC<Props> = ({ cards, deckId }: Props) => {
                       <motion.div
                         transition={{ duration: 0.7 }}
                         animate={{ rotateY: showAnswer ? 0 : 180 }}
-                        className={
-                          "backface-hidden absolute inset-0 flex items-center justify-center transition-opacity duration-700"
-                        }
+                        className="backface-hidden absolute inset-0 flex items-center justify-center transition-opacity duration-700"
                       >
                         {currentCard.answer}
                       </motion.div>
@@ -129,9 +127,7 @@ const CardLearn: React.FC<Props> = ({ cards, deckId }: Props) => {
                         initial={{ rotateY: 180 }}
                         animate={{ rotateY: showAnswer ? 180 : 0 }}
                         transition={{ duration: 0.7 }}
-                        className={
-                          "backface-hidden absolute inset-0 flex items-center justify-center transition-opacity duration-700"
-                        }
+                        className="backface-hidden absolute inset-0 flex items-center justify-center transition-opacity duration-700"
                       >
                         {currentCard.question}
                       </motion.div>
@@ -148,7 +144,6 @@ const CardLearn: React.FC<Props> = ({ cards, deckId }: Props) => {
                 <Button
                   size={"lg"}
                   variant={"default"}
-                  onClick={handleOkButton}
                   className="text-[min(5vw,1.26rem)]"
                 >
                   {" "}
@@ -165,7 +160,7 @@ const CardLearn: React.FC<Props> = ({ cards, deckId }: Props) => {
               </div>
             ) : (
               <Button
-                className={"text-[min(5vw,1.26rem)]"}
+                className="text-[min(5vw,1.26rem)]"
                 onClick={() => setShowAnswer((prevState) => !prevState)}
               >
                 Show answer
